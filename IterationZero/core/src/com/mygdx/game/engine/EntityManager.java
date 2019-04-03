@@ -21,6 +21,16 @@ public class EntityManager {
         return instance;
     }
 
+    public IEntity getEntity(int eid) {
+        return entities.get(eid);
+    }
+
+    public void addEntity(IEntity e) {
+        if(!entities.containsKey(e.getID())) {
+            entities.put(e.getID(), e);
+        }
+    }
+
     public HashMap<Integer, IEntity> getEntites() {
         return entities;
     }

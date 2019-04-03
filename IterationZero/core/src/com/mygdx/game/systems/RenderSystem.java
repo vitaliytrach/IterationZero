@@ -1,8 +1,19 @@
 package com.mygdx.game.systems;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.components.RenderComponent;
+import com.mygdx.game.components.SpriteComponent;
 import com.mygdx.game.engine.ComponentManager;
 import com.mygdx.game.engine.EntityManager;
+import com.mygdx.game.interfaces.IEntity;
 import com.mygdx.game.interfaces.ISystem;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class RenderSystem implements ISystem {
 
@@ -30,9 +41,29 @@ public class RenderSystem implements ISystem {
 
     @Override
     public void render() {
-        // Roses are red,
-        // Violets are blue,
-        // render method?
-        // TODO
+        // This line looks messy, I'll fix it later once I get stuff rendering
+        SpriteBatch batch = ((RenderComponent) componentManager.getComponent(id, "RenderComponent")).getSpriteBatch();
+
+        String tempEntity = "PlayerEntity";
+
+        HashMap<Integer, IEntity> entities = entityManager.getEntites();
+
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        batch.begin();
+
+        if(entities != null) {
+            Set<Map.Entry<Integer,IEntity>> entitiesMap = entities.entrySet();
+
+            for(Map.Entry<Integer,IEntity> e : entitiesMap) {
+
+                int id = e.getValue().getID();
+
+                Sprite sprite = ((SpriteComponent) componentManager.getComponent(id, "SpriteComponent")).getSprite();
+                sprite.draw(batch);
+            }
+
+        }
+        batch.end();
     }
 }

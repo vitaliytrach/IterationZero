@@ -15,6 +15,10 @@ public class SpriteComponent implements IComponent {
         type = "SpriteComponent";
     }
 
+    public Sprite getSprite() {
+        return sprite;
+    }
+
     @Override
     public int getID() {
         return id;
