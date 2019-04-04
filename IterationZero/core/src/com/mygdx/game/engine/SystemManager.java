@@ -57,6 +57,10 @@ public class SystemManager {
         }
     }
 
+    public boolean hasSystem(String stype) {
+        return systemTypes.containsKey(stype);
+    }
+
     public ISystem getSystem(int sid, String stype) {
         return systemIds.get(sid).get(stype);
     }
