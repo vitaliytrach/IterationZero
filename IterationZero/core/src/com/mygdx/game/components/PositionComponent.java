@@ -14,7 +14,7 @@ public class PositionComponent implements IComponent {
     private String type;
     private int x, y;
 
-    public PositionComponent(int x, int y, int id) {
+    public PositionComponent(int id, int x, int y) {
         this.x = x;
         this.y = y;
         this.id = id;

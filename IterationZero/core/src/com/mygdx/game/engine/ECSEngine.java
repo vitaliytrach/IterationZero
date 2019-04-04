@@ -1,5 +1,6 @@
 package com.mygdx.game.engine;
 
+import com.mygdx.game.interfaces.IBuilder;
 import com.mygdx.game.interfaces.IComponent;
 import com.mygdx.game.interfaces.IEntity;
 import com.mygdx.game.interfaces.ISystem;
@@ -34,23 +35,24 @@ public class ECSEngine {
         return instance;
     }
 
-    public void addEntity(IEntity e, ArrayList<IComponent> cl, ArrayList<ISystem> sl) {
-        entityManager.addEntity(e);
+    public void addEntity(IBuilder builder) {
+        entityManager.addEntity(builder.getEntity());
 
-        for (IComponent c : cl) {
+        for(IComponent c : builder.getComponentList()) {
             componentManager.addComponent(c);
         }
 
-        for (ISystem s : sl) {
+        for(ISystem s : builder.getSystemList()) {
             systemManager.addSystem(s);
         }
     }
 
     public void render() {
-
         for (String sType : SystemUpdateOrder.getUpdateOrder()) {
-            for (Map.Entry<Integer, ISystem> system : systemManager.getSystemIds(sType).entrySet()) {
-                system.getValue().render();
+            if(systemManager.hasSystem(sType)) {
+                for (Map.Entry<Integer, ISystem> system : systemManager.getSystemIds(sType).entrySet()) {
+                    system.getValue().render();
+                }
             }
         }
     }
