@@ -2,9 +2,9 @@ package com.mygdx.game.utils;
 
 public class EntityRenderOrder {
 
-    private String[] renderOrder = {"PlayerEntity", "TileEntity"};
+    private static String[] renderOrder = {"TileEntity", "PlayerEntity"};
 
     public static String[] getRenderOrder(){
-        return getRenderOrder();
+        return renderOrder;
     }
 }

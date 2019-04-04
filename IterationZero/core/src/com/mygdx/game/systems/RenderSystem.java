@@ -11,6 +11,7 @@ import com.mygdx.game.engine.ComponentManager;
 import com.mygdx.game.engine.EntityManager;
 import com.mygdx.game.interfaces.IEntity;
 import com.mygdx.game.interfaces.ISystem;
+import com.mygdx.game.utils.EntityRenderOrder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -54,18 +55,20 @@ public class RenderSystem implements ISystem {
         if(entities != null) {
             Set<Map.Entry<Integer,IEntity>> entitiesMap = entities.entrySet();
 
-            for(Map.Entry<Integer,IEntity> e : entitiesMap) {
+            for(String s : EntityRenderOrder.getRenderOrder()) {
+                for(Map.Entry<Integer,IEntity> e : entitiesMap) {
 
-                int id = e.getValue().getID();
+                    int id = e.getValue().getID();
 
-                Sprite sprite = ((SpriteComponent) componentManager.getComponent(id, "SpriteComponent")).getSprite();
-                PositionComponent pc = (PositionComponent) componentManager.getComponent(id, "PositionComponent");
-                sprite.setX(pc.getX());
-                sprite.setY(pc.getY());
-                sprite.draw(batch);
+                    Sprite sprite = ((SpriteComponent) componentManager.getComponent(id, "SpriteComponent")).getSprite();
+                    PositionComponent pc = (PositionComponent) componentManager.getComponent(id, "PositionComponent");
+                    sprite.setX(pc.getX());
+                    sprite.setY(pc.getY());
+                    sprite.draw(batch);
+                }
             }
-
         }
+
         batch.end();
     }
 }
