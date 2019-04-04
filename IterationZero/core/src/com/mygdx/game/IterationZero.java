@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.builders.PlayerEntityBuilder;
+import com.mygdx.game.builders.WorldEntityBuilder;
 import com.mygdx.game.components.PositionComponent;
 import com.mygdx.game.components.RenderComponent;
 import com.mygdx.game.components.SpriteComponent;
@@ -27,7 +28,6 @@ public class IterationZero extends ApplicationAdapter {
 	private SpriteBatch batch;
 	private AssetManager assetManager;
 	private ECSEngine engine;
-	Texture img;
 	
 	@Override
 	public void create () {
@@ -47,6 +47,5 @@ public class IterationZero extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		batch.dispose();
-		//img.dispose();
 	}
 }

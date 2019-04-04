@@ -4,6 +4,9 @@ import com.mygdx.game.interfaces.IEntity;
 
 public class Tile implements IEntity {
 
+    public static final int DEFAULT_TILE_WIDTH = 128;
+    public static final int DEFAULT_TILE_HEIGHT = 64;
+
     private int id;
     private String type;
 
@@ -14,7 +17,7 @@ public class Tile implements IEntity {
 
     @Override
     public int getID() {
-        return 1;
+        return id;
     }
 
     @Override

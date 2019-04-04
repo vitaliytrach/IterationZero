@@ -12,30 +12,30 @@ public class PositionComponent implements IComponent {
 
     private int id;
     private String type;
-    private int x, y;
+    private float x, y;
 
-    public PositionComponent(int id, int x, int y) {
+    public PositionComponent(int id, float x, float y) {
         this.x = x;
         this.y = y;
         this.id = id;
         type = "PositionComponent";
     }
 
-    public void setX(int x) {
+    public void setX(float x) {
         this.x = x;
     }
 
-    public void setY(int y) {
+    public void setY(float y) {
         this.y = y;
     }
 
     // GETTERS
 
-    public int getX() {
+    public float getX() {
         return x;
     }
 
-    public int getY() {
+    public float getY() {
         return y;
     }
 
