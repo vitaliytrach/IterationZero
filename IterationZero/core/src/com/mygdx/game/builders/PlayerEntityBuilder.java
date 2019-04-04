@@ -37,7 +37,7 @@ public class PlayerEntityBuilder implements IBuilder {
         int id = player.getID();
         Sprite playerSprite = new Sprite(new Texture("test_player.png"));
 
-        componentList.add(new PositionComponent(id, 0, 0));
+        componentList.add(new PositionComponent(id, 340f, 220f));
         componentList.add(new RenderComponent(id, batch));
         componentList.add(new SpriteComponent(id, playerSprite));
     }

@@ -62,8 +62,8 @@ public class RenderSystem implements ISystem {
 
                     Sprite sprite = ((SpriteComponent) componentManager.getComponent(id, "SpriteComponent")).getSprite();
                     PositionComponent pc = (PositionComponent) componentManager.getComponent(id, "PositionComponent");
-                    sprite.setX(pc.getX());
-                    sprite.setY(pc.getY());
+                    sprite.setCenterX(pc.getX());
+                    sprite.setCenterY(pc.getY());
                     sprite.draw(batch);
                 }
             }
