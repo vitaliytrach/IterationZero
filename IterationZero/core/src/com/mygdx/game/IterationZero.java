@@ -15,6 +15,7 @@ import com.mygdx.game.entities.Player;
 import com.mygdx.game.interfaces.IComponent;
 import com.mygdx.game.interfaces.IEntity;
 import com.mygdx.game.interfaces.ISystem;
+import com.mygdx.game.systems.InputSystem;
 import com.mygdx.game.systems.RenderSystem;
 
 import java.util.ArrayList;
@@ -40,12 +41,13 @@ public class IterationZero extends ApplicationAdapter {
 
 
 		ArrayList<IComponent> cl = new ArrayList<IComponent>();
-		cl.add(new PositionComponent(playerId,50, 50));
+		cl.add(new PositionComponent(100, 150, playerId));
 		cl.add(new SpriteComponent(playerId, playerSprite));
 		cl.add(new RenderComponent(playerId, batch));
 
 		ArrayList<ISystem> sl = new ArrayList<ISystem>();
 		sl.add(new RenderSystem(playerId));
+		sl.add(new InputSystem(playerId));
 
 		engine.addEntity(player, cl, sl);
 	}

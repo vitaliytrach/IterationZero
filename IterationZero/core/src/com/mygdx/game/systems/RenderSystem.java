@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.components.PositionComponent;
 import com.mygdx.game.components.RenderComponent;
 import com.mygdx.game.components.SpriteComponent;
 import com.mygdx.game.engine.ComponentManager;
@@ -44,8 +45,6 @@ public class RenderSystem implements ISystem {
         // This line looks messy, I'll fix it later once I get stuff rendering
         SpriteBatch batch = ((RenderComponent) componentManager.getComponent(id, "RenderComponent")).getSpriteBatch();
 
-        String tempEntity = "PlayerEntity";
-
         HashMap<Integer, IEntity> entities = entityManager.getEntites();
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -60,6 +59,9 @@ public class RenderSystem implements ISystem {
                 int id = e.getValue().getID();
 
                 Sprite sprite = ((SpriteComponent) componentManager.getComponent(id, "SpriteComponent")).getSprite();
+                PositionComponent pc = (PositionComponent) componentManager.getComponent(id, "PositionComponent");
+                sprite.setX(pc.getX());
+                sprite.setY(pc.getY());
                 sprite.draw(batch);
             }
 

@@ -3,6 +3,10 @@ package com.mygdx.game.components;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.mygdx.game.interfaces.IComponent;
 
+/**
+ * The SpriteComponent class is responsible of holding
+ * the physical sprite of a specific entity with the passed in id.
+ */
 public class SpriteComponent implements IComponent {
 
     private int id;

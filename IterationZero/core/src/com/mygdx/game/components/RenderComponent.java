@@ -3,6 +3,10 @@ package com.mygdx.game.components;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.interfaces.IComponent;
 
+/**
+ * The RenderComponent is responsible of holding the SpriteBatch
+ * that an entity can use.
+ */
 public class RenderComponent implements IComponent {
 
     private int id;

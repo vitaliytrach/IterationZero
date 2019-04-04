@@ -1,9 +1,15 @@
 package com.mygdx.game.engine;
 
 import com.mygdx.game.interfaces.IComponent;
-
 import java.util.HashMap;
 
+/**
+ * The ComponentManager is responsible for keeping
+ * track off all the components that are in the game.
+ * It does this in 2 ways:
+ * 1. Keeps a HashMap of all components related to an ID
+ * 2. Keeps a HashMap of all id's that use a specific component
+ */
 public class ComponentManager {
 
     private static ComponentManager instance;
@@ -26,8 +32,8 @@ public class ComponentManager {
         componentTypes = new HashMap<String, HashMap<Integer, IComponent>>();
     }
 
-    // Singleton so that all classes uses ComponentManager have
-    // the same components.
+    // Singleton so that all classes using the ComponentManager
+    // have the same components.
     public static ComponentManager getInstance() {
         if(instance == null) {
             instance = new ComponentManager();

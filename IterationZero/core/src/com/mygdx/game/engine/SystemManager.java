@@ -4,6 +4,13 @@ import com.mygdx.game.interfaces.ISystem;
 
 import java.util.HashMap;
 
+/**
+ * The SystemManager is responsible for keeping
+ * track off all the Systems that are in the game.
+ * It does this in 2 ways:
+ * 1. Keeps a HashMap of all systems related to a specific ID
+ * 2. Keeps a HashMap of all id's that use a specific system
+ */
 public class SystemManager {
 
     private static SystemManager instance;

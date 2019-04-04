@@ -8,19 +8,22 @@ import com.mygdx.game.utils.SystemUpdateOrder;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * The ECSEngine is the core of our game, it's responsibilities
+ * include keeping track off all the different Managers, and
+ * calling all the render() method's of all the systems.
+ */
 public class ECSEngine {
 
     private static ECSEngine instance;
     private ComponentManager componentManager;
     private SystemManager systemManager;
     private EntityManager entityManager;
-    private ArrayList<IEntity> entities;
 
     private ECSEngine() {
         componentManager = ComponentManager.getInstance();
         systemManager = SystemManager.getInstance();
         entityManager = EntityManager.getInstance();
-        entities = new ArrayList<IEntity>();
     }
 
     public static ECSEngine getInstance() {
