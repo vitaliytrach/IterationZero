@@ -51,7 +51,6 @@ public class PlayerEntityBuilder implements IBuilder {
         int id = player.getID();
 
         systemList.add(new RenderSystem(id));
-        systemList.add(new InputSystem(player.getID()));
     }
 
     @Override

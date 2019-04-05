@@ -2,40 +2,47 @@ package com.mygdx.game.systems;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.mygdx.game.components.PositionComponent;
+import com.mygdx.game.data.TileData;
 import com.mygdx.game.engine.ComponentManager;
+import com.mygdx.game.entities.World;
 import com.mygdx.game.interfaces.ISystem;
 
 public class InputSystem implements ISystem {
 
     private int id;
     private String type;
-    private ComponentManager componentManager;
+    private World world;
 
-    public InputSystem(int id) {
+    public InputSystem(int id, World world) {
         this.id = id;
+        this.world = world;
         type = "InputSystem";
-        componentManager = ComponentManager.getInstance();
     }
 
     @Override
     public void render() {
-        PositionComponent pc = (PositionComponent) componentManager.getComponent(id, "PositionComponent");
 
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            pc.setX(pc.getX() + 5);
-        }
+        for(int i = 0; i < world.getHeight(); i++){
+            for(int j = 0; j < world.getWidth(); j++) {
 
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            pc.setX(pc.getX() - 5);
-        }
+                TileData tile = world.getTile(j, i);
 
-        if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            pc.setY(pc.getY() - 5);
-        }
+                if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                    tile.setX(tile.getX() + 5);
+                }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            pc.setY(pc.getY() + 5);
+                if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                    tile.setX(tile.getX() - 5);
+                }
+
+                if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
+                    tile.setY(tile.getY() - 5);
+                }
+
+                if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+                    tile.setY(tile.getY() + 5);
+                }
+            }
         }
     }
 
