@@ -1,5 +1,8 @@
 package com.mygdx.game.engine;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.interfaces.IBuilder;
 import com.mygdx.game.interfaces.IComponent;
 import com.mygdx.game.interfaces.IEntity;
@@ -20,16 +23,18 @@ public class ECSEngine {
     private ComponentManager componentManager;
     private SystemManager systemManager;
     private EntityManager entityManager;
+    private SpriteBatch batch;
 
-    private ECSEngine() {
+    private ECSEngine(SpriteBatch batch) {
         componentManager = ComponentManager.getInstance();
         systemManager = SystemManager.getInstance();
         entityManager = EntityManager.getInstance();
+        this.batch = batch;
     }
 
-    public static ECSEngine getInstance() {
+    public static ECSEngine getInstance(SpriteBatch batch) {
         if (instance == null) {
-            instance = new ECSEngine();
+            instance = new ECSEngine(batch);
         }
 
         return instance;
@@ -48,6 +53,11 @@ public class ECSEngine {
     }
 
     public void render() {
+
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        batch.begin();
+
         for (String sType : SystemUpdateOrder.getUpdateOrder()) {
             if(systemManager.hasSystem(sType)) {
                 for (Map.Entry<Integer, ISystem> system : systemManager.getSystemIds(sType).entrySet()) {
@@ -55,5 +65,7 @@ public class ECSEngine {
                 }
             }
         }
+
+        batch.end();
     }
 }
