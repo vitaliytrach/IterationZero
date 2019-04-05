@@ -31,6 +31,10 @@ public class SystemManager {
         return instance;
     }
 
+    public boolean hasSystem(int id, String stype) {
+        return systemTypes.get(stype).containsKey(id);
+    }
+
     public void addSystem(ISystem system) {
 
         if(system == null) {

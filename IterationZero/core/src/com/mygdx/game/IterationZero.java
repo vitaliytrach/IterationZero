@@ -37,7 +37,7 @@ public class IterationZero extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		assetManager = new AssetManager();
-		engine = ECSEngine.getInstance();
+		engine = ECSEngine.getInstance(batch);
 
 		assetManager.load("test_player.png", Texture.class);
 		// Block for the assetManager to load since it's done asynchronously
@@ -46,17 +46,11 @@ public class IterationZero extends ApplicationAdapter {
 		IEntity player = new Player(EntityIDs.PLAYER_ID);
 		engine.addEntity(new PlayerEntityBuilder(player, batch, assetManager));
 
-		int width = 10;
-		int height = 10;
-		TileData[] map = GenerateMap.generateMap(width, height);
-
-		for(int i = 0; i < width; i++) {
-			for(int j = 0; j < height; j++) {
-				IEntity tile = new Tile(5 + ((i * width) + j));
-				IBuilder worldBuilder = new WorldEntityBuilder(tile, batch, map[(i * width) + j].getX(), map[(i * width) + j].getY());
-				engine.addEntity(worldBuilder);
-			}
-		}
+		int width = 40;
+		int height = 40;
+		TileData[] world = GenerateMap.generateMap(width, height);
+		WorldEntityBuilder builder = new WorldEntityBuilder(world, batch, width, height);
+		engine.addEntity(builder);
 	}
 
 	@Override
