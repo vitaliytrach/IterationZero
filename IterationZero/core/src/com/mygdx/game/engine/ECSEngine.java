@@ -1,15 +1,17 @@
 package com.mygdx.game.engine;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.components.PositionComponent;
+import com.mygdx.game.components.SpriteComponent;
 import com.mygdx.game.interfaces.IBuilder;
 import com.mygdx.game.interfaces.IComponent;
-import com.mygdx.game.interfaces.IEntity;
 import com.mygdx.game.interfaces.ISystem;
 import com.mygdx.game.utils.SystemUpdateOrder;
-
-import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -24,11 +26,13 @@ public class ECSEngine {
     private SystemManager systemManager;
     private EntityManager entityManager;
     private SpriteBatch batch;
+    private Camera camera;
 
     private ECSEngine(SpriteBatch batch) {
         componentManager = ComponentManager.getInstance();
         systemManager = SystemManager.getInstance();
         entityManager = EntityManager.getInstance();
+        camera = new OrthographicCamera(640,480);
         this.batch = batch;
     }
 
@@ -57,6 +61,10 @@ public class ECSEngine {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
+
+        PositionComponent player = (PositionComponent) componentManager.getComponent(0, "PositionComponent");
+        camera.position.set(player.getX(), player.getY(), 0);
+        camera.update();
 
         for (String sType : SystemUpdateOrder.getUpdateOrder()) {
             if(systemManager.hasSystem(sType)) {
