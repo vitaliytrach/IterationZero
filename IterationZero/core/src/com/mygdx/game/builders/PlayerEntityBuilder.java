@@ -1,5 +1,6 @@
 package com.mygdx.game.builders;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -21,8 +22,10 @@ public class PlayerEntityBuilder implements IBuilder {
     private SpriteBatch batch;
     private ArrayList<IComponent> componentList;
     private ArrayList<ISystem> systemList;
+    private AssetManager assetManager;
 
-    public PlayerEntityBuilder(IEntity player, SpriteBatch batch) {
+    public PlayerEntityBuilder(IEntity player, SpriteBatch batch, AssetManager assetManager) {
+        this.assetManager = assetManager;
         this.batch = batch;
         this.player = player;
         componentList = new ArrayList<IComponent>();
@@ -35,7 +38,7 @@ public class PlayerEntityBuilder implements IBuilder {
     public void buildComponentList() {
 
         int id = player.getID();
-        Sprite playerSprite = new Sprite(new Texture("test_player.png"));
+        Sprite playerSprite = new Sprite((Texture)assetManager.get("test_player.png"));
 
         componentList.add(new PositionComponent(id, 340f, 220f));
         componentList.add(new RenderComponent(id, batch));
@@ -48,7 +51,7 @@ public class PlayerEntityBuilder implements IBuilder {
         int id = player.getID();
 
         systemList.add(new RenderSystem(id));
-        systemList.add(new InputSystem(id));
+        systemList.add(new InputSystem(player.getID()));
     }
 
     @Override

@@ -23,19 +23,19 @@ public class InputSystem implements ISystem {
         PositionComponent pc = (PositionComponent) componentManager.getComponent(id, "PositionComponent");
 
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            pc.setX(pc.getX() - 5);
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             pc.setX(pc.getX() + 5);
         }
 
+        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            pc.setX(pc.getX() - 5);
+        }
+
         if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            pc.setY(pc.getY() + 5);
+            pc.setY(pc.getY() - 5);
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            pc.setY(pc.getY() - 5);
+            pc.setY(pc.getY() + 5);
         }
     }
 

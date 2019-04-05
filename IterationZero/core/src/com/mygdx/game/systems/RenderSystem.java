@@ -56,7 +56,11 @@ public class RenderSystem implements ISystem {
             Set<Map.Entry<Integer,IEntity>> entitiesMap = entities.entrySet();
 
             for(String s : EntityRenderOrder.getRenderOrder()) {
-                for(Map.Entry<Integer,IEntity> e : entitiesMap) {
+
+                HashMap<Integer, IEntity> e1 = entityManager.getEntityTypes(s);
+
+
+                for(Map.Entry<Integer,IEntity> e : e1.entrySet()) {
 
                     int id = e.getValue().getID();
 
