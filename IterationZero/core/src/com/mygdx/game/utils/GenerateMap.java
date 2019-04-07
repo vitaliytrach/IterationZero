@@ -2,13 +2,8 @@ package com.mygdx.game.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.JsonValue;
 import com.mygdx.game.data.TileData;
 import com.mygdx.game.entities.Tile;
-
-import java.util.HashSet;
 
 public class GenerateMap {
 
@@ -39,7 +34,7 @@ public class GenerateMap {
             offsetY -= Tile.DEFAULT_TILE_HEIGHT / 2;
         }
 
-        buildJsonText(tiles, width, height);
+        //buildJsonText(tiles, width, height);
 
         return tiles;
     }

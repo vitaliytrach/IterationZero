@@ -1,10 +1,7 @@
 package com.mygdx.game.systems;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.game.components.PositionComponent;
 import com.mygdx.game.components.RenderComponent;
 import com.mygdx.game.components.SpriteComponent;
 import com.mygdx.game.components.TransformComponent;
@@ -14,10 +11,8 @@ import com.mygdx.game.engine.SystemManager;
 import com.mygdx.game.interfaces.IEntity;
 import com.mygdx.game.interfaces.ISystem;
 import com.mygdx.game.utils.EntityRenderOrder;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class RenderSystem implements ISystem {
 
