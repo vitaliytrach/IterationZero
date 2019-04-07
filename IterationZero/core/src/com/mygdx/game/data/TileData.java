@@ -7,9 +7,10 @@ public class TileData {
     private float x;
     private float y;
     private Sprite tileSprite;
+    private String spriteFilePath = "test_tile.png";
 
     public TileData(float x, float y) {
-        this.tileSprite = new Sprite(new Texture("test_tile.png"));
+        this.tileSprite = new Sprite(new Texture(spriteFilePath));
         this.x = x;
         this.y = y;
     }
@@ -23,6 +24,8 @@ public class TileData {
     public void setY(float y) {
         this.y = y;
     }
+
+    public String getSpriteFilePath() { return spriteFilePath; }
 
     public Sprite getTileSprite() {
         return tileSprite;

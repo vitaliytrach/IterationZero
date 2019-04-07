@@ -3,6 +3,8 @@ package com.mygdx.game.utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
 import com.mygdx.game.data.TileData;
 import com.mygdx.game.entities.Tile;
 
@@ -37,6 +39,30 @@ public class GenerateMap {
             offsetY -= Tile.DEFAULT_TILE_HEIGHT / 2;
         }
 
+        buildJsonText(tiles, width, height);
+
         return tiles;
+    }
+
+    private static void buildJsonText(TileData[] tiles, int width, int height) {
+
+        StringBuilder jsonText = new StringBuilder();
+        jsonText.append("[\n");
+
+        for(int i = 0; i < height; i++) {
+            for(int j = 0; j < width; j++) {
+                jsonText.append("\t{\n");
+                jsonText.append("\t\t\"x\" : " + tiles[(j*width) + i].getX() + ",\n");
+                jsonText.append("\t\t\"y\" : " + tiles[(j*width) + i].getY() + ",\n");
+                jsonText.append("\t\t\"sprite\" : \"" + tiles[(j*width) + i].getSpriteFilePath() + "\"\n");
+                jsonText.append("\t},\n");
+            }
+        }
+
+        jsonText.deleteCharAt(jsonText.length() - 2);
+        jsonText.append("]");
+
+        FileHandle file = Gdx.files.local("maps/1.json");
+        file.writeString(jsonText.toString(), false);
     }
 }
