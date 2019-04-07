@@ -2,7 +2,10 @@ package com.mygdx.game.systems;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.components.PositionComponent;
 import com.mygdx.game.components.RenderComponent;
+import com.mygdx.game.components.TransformComponent;
 import com.mygdx.game.data.TileData;
 import com.mygdx.game.engine.ComponentManager;
 import com.mygdx.game.engine.EntityManager;
@@ -39,12 +42,16 @@ public class RenderWorldSystem implements ISystem {
         RenderComponent rc = (RenderComponent) componentManager.getComponent(id, "RenderComponent");
         SpriteBatch batch = rc.getSpriteBatch();
 
+        TransformComponent playerPositionComp = (TransformComponent) componentManager.getComponent(0, "TransformComponent");
+        float playerX = playerPositionComp.getPosition().x;
+        float playerY = playerPositionComp.getPosition().y;
         for(int i = 0; i < world.getHeight(); i++) {
             for(int j = 0; j < world.getWidth(); j++) {
                 TileData tile = world.getTile(j, i);
                 Sprite sprite = tile.getTileSprite();
                 sprite.setCenter(tile.getX(), tile.getY());
-                sprite.draw(batch);
+                if (tile.getX() <= playerX + 200 && tile.getX() >= playerX - 200)
+                    sprite.draw(batch);
             }
         }
     }
