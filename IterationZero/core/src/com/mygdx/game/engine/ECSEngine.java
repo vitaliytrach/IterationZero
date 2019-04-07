@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.components.PositionComponent;
 import com.mygdx.game.components.SpriteComponent;
+import com.mygdx.game.components.TransformComponent;
 import com.mygdx.game.interfaces.IBuilder;
 import com.mygdx.game.interfaces.IComponent;
 import com.mygdx.game.interfaces.ISystem;
@@ -60,10 +61,12 @@ public class ECSEngine {
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        camera.update();
         batch.begin();
+        batch.setProjectionMatrix(camera.combined);
 
-        PositionComponent player = (PositionComponent) componentManager.getComponent(0, "PositionComponent");
-        camera.position.set(player.getX(), player.getY(), 0);
+        TransformComponent playerTransform = (TransformComponent) componentManager.getComponent(0, "TransformComponent");
+        camera.position.set(playerTransform.getPosition().x, playerTransform.getPosition().y, 0);
         camera.update();
 
         for (String sType : SystemUpdateOrder.getUpdateOrder()) {

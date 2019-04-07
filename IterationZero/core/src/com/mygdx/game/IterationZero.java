@@ -31,8 +31,8 @@ public class IterationZero extends ApplicationAdapter {
 		IEntity player = new Player(EntityIDs.PLAYER_ID);
 		engine.addEntity(new PlayerEntityBuilder(player, batch, assetManager));
 
-		int width = 50;
-		int height = 50;
+		int width = 10;
+		int height = 10;
 		TileData[] world = GenerateMap.generateMap(width, height);
 		WorldEntityBuilder builder = new WorldEntityBuilder(world, batch, width, height);
 		engine.addEntity(builder);

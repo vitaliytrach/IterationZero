@@ -31,9 +31,7 @@ public class PositionComponent implements IComponent {
 
     // GETTERS
 
-    public float getX() {
-        return x;
-    }
+    public float getX() { return x; }
 
     public float getY() {
         return y;
