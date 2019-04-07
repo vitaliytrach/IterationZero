@@ -7,12 +7,17 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.components.PositionComponent;
 import com.mygdx.game.components.RenderComponent;
 import com.mygdx.game.components.SpriteComponent;
+import com.mygdx.game.components.TransformComponent;
+import com.mygdx.game.entities.Player;
 import com.mygdx.game.interfaces.IBuilder;
 import com.mygdx.game.interfaces.IComponent;
 import com.mygdx.game.interfaces.IEntity;
 import com.mygdx.game.interfaces.ISystem;
 import com.mygdx.game.systems.InputSystem;
 import com.mygdx.game.systems.RenderSystem;
+import com.badlogic.gdx.math.Vector2;
+
+
 
 import java.util.ArrayList;
 
@@ -40,7 +45,8 @@ public class PlayerEntityBuilder implements IBuilder {
         int id = player.getID();
         Sprite playerSprite = new Sprite((Texture)assetManager.get("test_player.png"));
 
-        componentList.add(new PositionComponent(id, 340f, 220f));
+        //componentList.add(new PositionComponent(id, 340f, 220f));
+        componentList.add(new TransformComponent(id, new Vector2(0,0), new Vector2(0,0), new Vector2(0,0)));
         componentList.add(new RenderComponent(id, batch));
         componentList.add(new SpriteComponent(id, playerSprite));
     }
@@ -51,6 +57,7 @@ public class PlayerEntityBuilder implements IBuilder {
         int id = player.getID();
 
         systemList.add(new RenderSystem(id));
+        systemList.add(new InputSystem(id, (Player) player));
     }
 
     @Override

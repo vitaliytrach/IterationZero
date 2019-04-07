@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.components.PositionComponent;
 import com.mygdx.game.components.RenderComponent;
 import com.mygdx.game.components.SpriteComponent;
+import com.mygdx.game.components.TransformComponent;
 import com.mygdx.game.engine.ComponentManager;
 import com.mygdx.game.engine.EntityManager;
 import com.mygdx.game.engine.SystemManager;
@@ -64,8 +65,10 @@ public class RenderSystem implements ISystem {
                     // Check to make sure only the Entities with a RenderSystem execute the follow code
                     if(systemManager.hasSystem(id, "RenderSystem")){
                         Sprite sprite = ((SpriteComponent) componentManager.getComponent(id, "SpriteComponent")).getSprite();
-                        PositionComponent pc = (PositionComponent) componentManager.getComponent(id, "PositionComponent");
-                        sprite.setCenter(pc.getX(), pc.getY());
+                        //PositionComponent pc = (PositionComponent) componentManager.getComponent(id, "PositionComponent");
+                        //sprite.setCenter(pc.getX(), pc.getY());
+                        TransformComponent tc = (TransformComponent) componentManager.getComponent(id, "TransformComponent");
+                        sprite.setCenter(tc.getPosition().x, tc.getPosition().y);
                         sprite.draw(batch);
                     }
                 }
