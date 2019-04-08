@@ -1,7 +1,6 @@
 package com.mygdx.game.builders;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -9,12 +8,10 @@ import com.mygdx.game.components.LocationComponent;
 import com.mygdx.game.components.RenderComponent;
 import com.mygdx.game.components.SpriteComponent;
 import com.mygdx.game.components.TransformComponent;
-import com.mygdx.game.entities.Player;
 import com.mygdx.game.interfaces.IBuilder;
 import com.mygdx.game.interfaces.IComponent;
 import com.mygdx.game.interfaces.IEntity;
 import com.mygdx.game.interfaces.ISystem;
-import com.mygdx.game.systems.InputSystem;
 import com.mygdx.game.systems.MovePlayerSystem;
 import com.mygdx.game.systems.RenderSystem;
 import com.badlogic.gdx.math.Vector2;
@@ -30,10 +27,8 @@ public class PlayerEntityBuilder implements IBuilder {
     private ArrayList<IComponent> componentList;
     private ArrayList<ISystem> systemList;
     private AssetManager assetManager;
-    private Camera camera;
 
-    public PlayerEntityBuilder(IEntity player, SpriteBatch batch, AssetManager assetManager, Camera camera) {
-        this.camera = camera;
+    public PlayerEntityBuilder(IEntity player, SpriteBatch batch, AssetManager assetManager) {
         this.assetManager = assetManager;
         this.batch = batch;
         this.player = player;
@@ -62,7 +57,7 @@ public class PlayerEntityBuilder implements IBuilder {
 
         int id = player.getID();
 
-        systemList.add(new RenderSystem(id, camera));
+        systemList.add(new RenderSystem(id));
         systemList.add(new MovePlayerSystem(id));
     }
 

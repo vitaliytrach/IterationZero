@@ -23,10 +23,8 @@ public class RenderSystem implements ISystem {
     private ComponentManager componentManager;
     private EntityManager entityManager;
     private SystemManager systemManager;
-    private Camera camera;
 
-    public RenderSystem(int id, Camera camera) {
-        this.camera = camera;
+    public RenderSystem(int id) {
         this.id = id;
         type = "RenderSystem";
         componentManager = ComponentManager.getInstance();
@@ -64,17 +62,9 @@ public class RenderSystem implements ISystem {
                     // Check to make sure only the Entities with a RenderSystem execute the follow code
                     if(systemManager.hasSystem(id, "RenderSystem")){
                         Sprite sprite = ((SpriteComponent) componentManager.getComponent(id, "SpriteComponent")).getSprite();
-                        //PositionComponent pc = (PositionComponent) componentManager.getComponent(id, "PositionComponent");
-                        //sprite.setCenter(pc.getX(), pc.getY());
-                        //TransformComponent tc = (TransformComponent) componentManager.getComponent(id, "TransformComponent");
-
-
                         TransformComponent tc = (TransformComponent) componentManager.getComponent(EntityIDs.PLAYER_ID, "TransformComponent");
-
-
-                        sprite.setCenter(tc.getPosition().x, tc.getPosition().y);
+                        sprite.setCenter(tc.getPosition().x , tc.getPosition().y);
                         sprite.draw(batch);
-                        camera.position.set(tc.getPosition().x, tc.getPosition().y, 0);
                     }
                 }
             }

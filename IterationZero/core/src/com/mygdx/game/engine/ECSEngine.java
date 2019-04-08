@@ -3,11 +3,7 @@ package com.mygdx.game.engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.game.components.PositionComponent;
-import com.mygdx.game.components.SpriteComponent;
 import com.mygdx.game.components.TransformComponent;
 import com.mygdx.game.interfaces.IBuilder;
 import com.mygdx.game.interfaces.IComponent;
@@ -19,7 +15,7 @@ import java.util.Map;
 /**
  * The ECSEngine is the core of our game, it's responsibilities
  * include keeping track off all the different Managers, and
- * calling all the render() method's of all the systems.
+ * calling the render() method's of all the systems.
  */
 public class ECSEngine {
 
@@ -56,9 +52,9 @@ public class ECSEngine {
         batch.begin();
         batch.setProjectionMatrix(camera.combined);
 
-        //TransformComponent playerTransform = (TransformComponent) componentManager.getComponent(EntityIDs.PLAYER_ID, "TransformComponent");
-        //camera.position.set(playerTransform.getPosition().x, playerTransform.getPosition().y, 0);
-
+        TransformComponent playerTransform = (TransformComponent) componentManager.getComponent(EntityIDs.PLAYER_ID, "TransformComponent");
+        camera.position.set(playerTransform.getPosition().x, playerTransform.getPosition().y, 0);
+        camera.update();
 
         for (String sType : SystemUpdateOrder.getUpdateOrder()) {
             if(systemManager.hasSystem(sType)) {
@@ -68,7 +64,6 @@ public class ECSEngine {
             }
         }
 
-        camera.update();
         batch.end();
     }
 }

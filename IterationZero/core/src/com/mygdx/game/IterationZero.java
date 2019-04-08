@@ -37,7 +37,7 @@ public class IterationZero extends ApplicationAdapter {
 		while(!assetManager.update());
 
 		IEntity player = new Player(EntityIDs.PLAYER_ID);
-		engine.addEntity(new PlayerEntityBuilder(player, batch, assetManager, camera));
+		engine.addEntity(new PlayerEntityBuilder(player, batch, assetManager));
 
 		int width = 100;
 		int height = 100;
