@@ -45,5 +45,6 @@ public class IterationZero extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		batch.dispose();
+		assetManager.dispose();
 	}
 }

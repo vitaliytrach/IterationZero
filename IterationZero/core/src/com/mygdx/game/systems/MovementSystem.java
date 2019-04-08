@@ -39,27 +39,32 @@ public class MovementSystem implements ISystem {
     public void render() {
 
         LocationComponent lc = (LocationComponent) cm.getComponent(EntityIDs.PLAYER_ID, "LocationComponent");
+        MapComponent mc = (MapComponent) cm.getComponent(EntityIDs.WORLD_ID, "MapComponent");
 
         if(direction == "idle") {
             if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-                lc.setY(lc.getY() + 1);
+                if((lc.getY() - 1) < 0) { return; }
+                lc.setY(lc.getY() - 1);
                 direction = "up";
                 moveX = Math.abs(moveX) * -1;
                 moveY = Math.abs(moveY) * -1;
                 isMoving = true;
             } else if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-                lc.setY(lc.getY() - 1);
+                if((lc.getY() + 1) > mc.getHeight() - 1) { return; }
+                lc.setY(lc.getY() + 1);
                 direction = "down";
                 moveX = Math.abs(moveX);
                 moveY = Math.abs(moveY);
                 isMoving = true;
             } else if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                if((lc.getX() - 1) < 0) { return; }
                 lc.setX(lc.getX() - 1);
                 direction = "left";
                 moveX = Math.abs(moveX);
                 moveY = Math.abs(moveY) * -1;
                 isMoving = true;
             } else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                if((lc.getX() + 1) > mc.getWidth() - 1) { return; }
                 lc.setX(lc.getX() + 1);
                 direction = "right";
                 moveX = Math.abs(moveX) * -1;

@@ -44,15 +44,9 @@ public class ECSEngine {
     }
 
     public void render() {
-
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        //batch.setProjectionMatrix(camera.combined);
-
-        //TransformComponent playerTransform = (TransformComponent) componentManager.getComponent(EntityIDs.PLAYER_ID, "TransformComponent");
-        //camera.position.set(playerTransform.getPosition().x, playerTransform.getPosition().y, 0);
-        //camera.update();
 
         for (String sType : SystemUpdateOrder.getUpdateOrder()) {
             if(systemManager.hasSystem(sType)) {
