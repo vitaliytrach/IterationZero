@@ -2,6 +2,8 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.builders.PlayerEntityBuilder;
@@ -21,19 +23,21 @@ public class IterationZero extends ApplicationAdapter {
 	private SpriteBatch batch;
 	private AssetManager assetManager;
 	private ECSEngine engine;
+	private Camera camera;
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		assetManager = new AssetManager();
-		engine = ECSEngine.getInstance(batch);
+		camera = new OrthographicCamera(SCREEN_WIDTH, SCREEN_HEIGHT);
+		engine = new ECSEngine(batch,camera);
 
 		assetManager.load("test_player2.png", Texture.class);
 		// Block for the assetManager to load since it's done asynchronously
 		while(!assetManager.update());
 
 		IEntity player = new Player(EntityIDs.PLAYER_ID);
-		engine.addEntity(new PlayerEntityBuilder(player, batch, assetManager));
+		engine.addEntity(new PlayerEntityBuilder(player, batch, assetManager, camera));
 
 		int width = 100;
 		int height = 100;

@@ -23,27 +23,18 @@ import java.util.Map;
  */
 public class ECSEngine {
 
-    private static ECSEngine instance;
     private ComponentManager componentManager;
     private SystemManager systemManager;
     private EntityManager entityManager;
     private SpriteBatch batch;
     private Camera camera;
 
-    private ECSEngine(SpriteBatch batch) {
+    public ECSEngine(SpriteBatch batch, Camera camera) {
         componentManager = ComponentManager.getInstance();
         systemManager = SystemManager.getInstance();
         entityManager = EntityManager.getInstance();
-        camera = new OrthographicCamera(640,480);
+        this.camera = camera;
         this.batch = batch;
-    }
-
-    public static ECSEngine getInstance(SpriteBatch batch) {
-        if (instance == null) {
-            instance = new ECSEngine(batch);
-        }
-
-        return instance;
     }
 
     public void addEntity(IBuilder builder) {
@@ -62,13 +53,12 @@ public class ECSEngine {
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        camera.update();
         batch.begin();
         batch.setProjectionMatrix(camera.combined);
 
-        TransformComponent playerTransform = (TransformComponent) componentManager.getComponent(EntityIDs.PLAYER_ID, "TransformComponent");
-        camera.position.set(playerTransform.getPosition().x, playerTransform.getPosition().y, 0);
-        camera.update();
+        //TransformComponent playerTransform = (TransformComponent) componentManager.getComponent(EntityIDs.PLAYER_ID, "TransformComponent");
+        //camera.position.set(playerTransform.getPosition().x, playerTransform.getPosition().y, 0);
+
 
         for (String sType : SystemUpdateOrder.getUpdateOrder()) {
             if(systemManager.hasSystem(sType)) {
@@ -78,6 +68,7 @@ public class ECSEngine {
             }
         }
 
+        camera.update();
         batch.end();
     }
 }

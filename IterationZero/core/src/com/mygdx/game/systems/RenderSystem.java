@@ -1,5 +1,6 @@
 package com.mygdx.game.systems;
 
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.components.RenderComponent;
@@ -10,6 +11,7 @@ import com.mygdx.game.engine.EntityManager;
 import com.mygdx.game.engine.SystemManager;
 import com.mygdx.game.interfaces.IEntity;
 import com.mygdx.game.interfaces.ISystem;
+import com.mygdx.game.utils.EntityIDs;
 import com.mygdx.game.utils.EntityRenderOrder;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,8 +23,10 @@ public class RenderSystem implements ISystem {
     private ComponentManager componentManager;
     private EntityManager entityManager;
     private SystemManager systemManager;
+    private Camera camera;
 
-    public RenderSystem(int id) {
+    public RenderSystem(int id, Camera camera) {
+        this.camera = camera;
         this.id = id;
         type = "RenderSystem";
         componentManager = ComponentManager.getInstance();
@@ -62,9 +66,15 @@ public class RenderSystem implements ISystem {
                         Sprite sprite = ((SpriteComponent) componentManager.getComponent(id, "SpriteComponent")).getSprite();
                         //PositionComponent pc = (PositionComponent) componentManager.getComponent(id, "PositionComponent");
                         //sprite.setCenter(pc.getX(), pc.getY());
-                        TransformComponent tc = (TransformComponent) componentManager.getComponent(id, "TransformComponent");
+                        //TransformComponent tc = (TransformComponent) componentManager.getComponent(id, "TransformComponent");
+
+
+                        TransformComponent tc = (TransformComponent) componentManager.getComponent(EntityIDs.PLAYER_ID, "TransformComponent");
+
+
                         sprite.setCenter(tc.getPosition().x, tc.getPosition().y);
                         sprite.draw(batch);
+                        camera.position.set(tc.getPosition().x, tc.getPosition().y, 0);
                     }
                 }
             }
