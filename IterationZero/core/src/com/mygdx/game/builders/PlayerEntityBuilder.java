@@ -13,6 +13,7 @@ import com.mygdx.game.interfaces.IComponent;
 import com.mygdx.game.interfaces.IEntity;
 import com.mygdx.game.interfaces.ISystem;
 import com.mygdx.game.systems.InputSystem;
+import com.mygdx.game.systems.MovePlayerSystem;
 import com.mygdx.game.systems.RenderSystem;
 import com.badlogic.gdx.math.Vector2;
 
@@ -57,7 +58,8 @@ public class PlayerEntityBuilder implements IBuilder {
         int id = player.getID();
 
         systemList.add(new RenderSystem(id));
-        systemList.add(new InputSystem(id, (Player) player));
+        //systemList.add(new InputSystem(id, (Player) player));
+        systemList.add(new MovePlayerSystem(id));
     }
 
     @Override
