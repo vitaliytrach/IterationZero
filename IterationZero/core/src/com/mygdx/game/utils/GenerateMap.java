@@ -11,8 +11,8 @@ public class GenerateMap {
 
         TileData[] tiles = new TileData[width * height];
 
-        int offsetX = 0;
-        int offsetY = 0;
+        int offsetX = 320;
+        int offsetY = 240;
 
         int x,y;
 

@@ -12,7 +12,6 @@ import com.mygdx.game.interfaces.IBuilder;
 import com.mygdx.game.interfaces.IComponent;
 import com.mygdx.game.interfaces.IEntity;
 import com.mygdx.game.interfaces.ISystem;
-import com.mygdx.game.systems.MovePlayerSystem;
 import com.mygdx.game.systems.RenderSystem;
 import com.badlogic.gdx.math.Vector2;
 
@@ -44,9 +43,7 @@ public class PlayerEntityBuilder implements IBuilder {
         int id = player.getID();
         Sprite playerSprite = new Sprite((Texture)assetManager.get("test_player2.png"));
 
-        float y = playerSprite.getHeight() / 2;
-
-        componentList.add(new TransformComponent(id, new Vector2(0,0), new Vector2(0,0), new Vector2(0,0)));
+        componentList.add(new TransformComponent(id, new Vector2(320,240), new Vector2(0,0), new Vector2(0,0)));
         componentList.add(new RenderComponent(id, batch));
         componentList.add(new SpriteComponent(id, playerSprite));
         componentList.add(new LocationComponent(id, 0,1,1));
@@ -54,11 +51,7 @@ public class PlayerEntityBuilder implements IBuilder {
 
     @Override
     public void buildSystemList() {
-
-        int id = player.getID();
-
-        systemList.add(new RenderSystem(id));
-        systemList.add(new MovePlayerSystem(id));
+        systemList.add(new RenderSystem(player.getID()));
     }
 
     @Override
