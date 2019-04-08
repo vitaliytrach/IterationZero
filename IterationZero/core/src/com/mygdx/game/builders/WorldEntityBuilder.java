@@ -45,7 +45,6 @@ public class WorldEntityBuilder implements IBuilder {
     @Override
     public void buildSystemList() {
         systemList.add(new RenderWorldSystem(id));
-        //systemList.add(new InputSystem(id, world));
     }
 
     @Override

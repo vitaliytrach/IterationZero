@@ -28,7 +28,7 @@ public class IterationZero extends ApplicationAdapter {
 		assetManager = new AssetManager();
 		engine = ECSEngine.getInstance(batch);
 
-		assetManager.load("test_player.png", Texture.class);
+		assetManager.load("test_player2.png", Texture.class);
 		// Block for the assetManager to load since it's done asynchronously
 		while(!assetManager.update());
 

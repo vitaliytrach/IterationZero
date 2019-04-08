@@ -12,6 +12,7 @@ import com.mygdx.game.components.TransformComponent;
 import com.mygdx.game.interfaces.IBuilder;
 import com.mygdx.game.interfaces.IComponent;
 import com.mygdx.game.interfaces.ISystem;
+import com.mygdx.game.utils.EntityIDs;
 import com.mygdx.game.utils.SystemUpdateOrder;
 import java.util.Map;
 
@@ -65,7 +66,7 @@ public class ECSEngine {
         batch.begin();
         batch.setProjectionMatrix(camera.combined);
 
-        TransformComponent playerTransform = (TransformComponent) componentManager.getComponent(0, "TransformComponent");
+        TransformComponent playerTransform = (TransformComponent) componentManager.getComponent(EntityIDs.PLAYER_ID, "TransformComponent");
         camera.position.set(playerTransform.getPosition().x, playerTransform.getPosition().y, 0);
         camera.update();
 

@@ -33,45 +33,20 @@ public class InputSystem implements ISystem {
 
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
         {
-            tc.setPostion(new Vector2(playerPosition.x + 5, playerPosition.y));
+            tc.setPostion(new Vector2(playerPosition.x - 3, playerPosition.y + 3));
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            tc.setPostion(new Vector2(playerPosition.x - 5, playerPosition.y));
+            tc.setPostion(new Vector2(playerPosition.x + 3, playerPosition.y - 3));
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            tc.setPostion(new Vector2(playerPosition.x, playerPosition.y + 5));
+            tc.setPostion(new Vector2(playerPosition.x + (float) (3 * Math.sqrt(3)), playerPosition.y + 3));
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            tc.setPostion(new Vector2(playerPosition.x, playerPosition.y - 5));
+            tc.setPostion(new Vector2(playerPosition.x - 3, playerPosition.y - 3));
         }
-
-        /*
-        for(int i = 0; i < world.getHeight(); i++){
-            for(int j = 0; j < world.getWidth(); j++) {
-
-                TileData tile = world.getTile(j, i);
-
-                if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                    tile.setX(tile.getX() + 5);
-                }
-
-                if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                    tile.setX(tile.getX() - 5);
-                }
-
-                if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-                    tile.setY(tile.getY() - 5);
-                }
-
-                if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-                    tile.setY(tile.getY() + 5);
-                }
-            }
-        }
-        */
     }
 
     @Override

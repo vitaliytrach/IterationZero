@@ -4,7 +4,6 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.game.components.PositionComponent;
 import com.mygdx.game.components.RenderComponent;
 import com.mygdx.game.components.SpriteComponent;
 import com.mygdx.game.components.TransformComponent;
@@ -43,9 +42,10 @@ public class PlayerEntityBuilder implements IBuilder {
     public void buildComponentList() {
 
         int id = player.getID();
-        Sprite playerSprite = new Sprite((Texture)assetManager.get("test_player.png"));
+        Sprite playerSprite = new Sprite((Texture)assetManager.get("test_player2.png"));
 
-        //componentList.add(new PositionComponent(id, 340f, 220f));
+        float y = playerSprite.getHeight() / 2;
+
         componentList.add(new TransformComponent(id, new Vector2(0,0), new Vector2(0,0), new Vector2(0,0)));
         componentList.add(new RenderComponent(id, batch));
         componentList.add(new SpriteComponent(id, playerSprite));

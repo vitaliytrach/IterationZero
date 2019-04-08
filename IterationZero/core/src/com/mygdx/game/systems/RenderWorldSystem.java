@@ -11,6 +11,7 @@ import com.mygdx.game.engine.EntityManager;
 import com.mygdx.game.entities.Tile;
 import com.mygdx.game.entities.World;
 import com.mygdx.game.interfaces.ISystem;
+import com.mygdx.game.utils.EntityIDs;
 
 public class RenderWorldSystem implements ISystem {
 
@@ -42,7 +43,7 @@ public class RenderWorldSystem implements ISystem {
         RenderComponent rc = (RenderComponent) componentManager.getComponent(id, "RenderComponent");
         SpriteBatch batch = rc.getSpriteBatch();
 
-        TransformComponent playerPositionComp = (TransformComponent) componentManager.getComponent(0, "TransformComponent");
+        TransformComponent playerPositionComp = (TransformComponent) componentManager.getComponent(EntityIDs.PLAYER_ID, "TransformComponent");
 
         // Setting the render distance boundaries
         float rdStartX = (playerPositionComp.getPosition().x - IterationZero.SCREEN_WIDTH / 2) - Tile.DEFAULT_TILE_WIDTH * 2;
