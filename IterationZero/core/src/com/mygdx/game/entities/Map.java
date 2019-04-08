@@ -2,17 +2,14 @@ package com.mygdx.game.entities;
 
 import com.mygdx.game.interfaces.IEntity;
 
-public class Tile implements IEntity {
-
-    public static final int DEFAULT_TILE_WIDTH = 128;
-    public static final int DEFAULT_TILE_HEIGHT = 64;
+public class Map implements IEntity {
 
     private int id;
     private String type;
 
-    public Tile(int id) {
+    public Map(int id) {
         this.id = id;
-        type = "TileEntity";
+        type = "WorldEntity";
     }
 
     @Override

@@ -4,11 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.game.components.TransformComponent;
 import com.mygdx.game.interfaces.IBuilder;
 import com.mygdx.game.interfaces.IComponent;
 import com.mygdx.game.interfaces.ISystem;
-import com.mygdx.game.utils.EntityIDs;
 import com.mygdx.game.utils.SystemUpdateOrder;
 import java.util.Map;
 

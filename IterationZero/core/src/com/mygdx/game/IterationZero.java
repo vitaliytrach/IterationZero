@@ -8,12 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.builders.PlayerEntityBuilder;
 import com.mygdx.game.builders.WorldEntityBuilder;
-import com.mygdx.game.data.TileData;
 import com.mygdx.game.engine.ECSEngine;
-import com.mygdx.game.entities.Player;
-import com.mygdx.game.interfaces.IEntity;
-import com.mygdx.game.utils.EntityIDs;
-import com.mygdx.game.utils.GenerateMap;
 
 public class IterationZero extends ApplicationAdapter {
 
@@ -36,13 +31,9 @@ public class IterationZero extends ApplicationAdapter {
 		// Block for the assetManager to load since it's done asynchronously
 		while(!assetManager.update());
 
-		IEntity player = new Player(EntityIDs.PLAYER_ID);
-		engine.addEntity(new PlayerEntityBuilder(player, batch, assetManager));
+		engine.addEntity(new PlayerEntityBuilder(batch, assetManager));
 
-		int width = 100;
-		int height = 100;
-		TileData[] world = GenerateMap.generateMap(width, height);
-		WorldEntityBuilder builder = new WorldEntityBuilder(world, batch, width, height);
+		WorldEntityBuilder builder = new WorldEntityBuilder(batch);
 		engine.addEntity(builder);
 	}
 

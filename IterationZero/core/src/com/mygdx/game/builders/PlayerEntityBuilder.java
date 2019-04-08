@@ -8,13 +8,14 @@ import com.mygdx.game.components.LocationComponent;
 import com.mygdx.game.components.RenderComponent;
 import com.mygdx.game.components.SpriteComponent;
 import com.mygdx.game.components.TransformComponent;
+import com.mygdx.game.entities.Player;
 import com.mygdx.game.interfaces.IBuilder;
 import com.mygdx.game.interfaces.IComponent;
 import com.mygdx.game.interfaces.IEntity;
 import com.mygdx.game.interfaces.ISystem;
 import com.mygdx.game.systems.RenderSystem;
 import com.badlogic.gdx.math.Vector2;
-
+import com.mygdx.game.utils.EntityIDs;
 
 
 import java.util.ArrayList;
@@ -27,10 +28,10 @@ public class PlayerEntityBuilder implements IBuilder {
     private ArrayList<ISystem> systemList;
     private AssetManager assetManager;
 
-    public PlayerEntityBuilder(IEntity player, SpriteBatch batch, AssetManager assetManager) {
+    public PlayerEntityBuilder(SpriteBatch batch, AssetManager assetManager) {
         this.assetManager = assetManager;
         this.batch = batch;
-        this.player = player;
+        player = new Player(EntityIDs.PLAYER_ID);
         componentList = new ArrayList<IComponent>();
         systemList = new ArrayList<ISystem>();
         buildComponentList();

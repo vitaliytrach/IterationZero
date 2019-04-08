@@ -3,14 +3,17 @@ package com.mygdx.game.data;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
-public class TileData {
+public class Tile {
+
+    public static final int DEFAULT_TILE_WIDTH = 128;
+    public static final int DEFAULT_TILE_HEIGHT = 64;
+
     private float x;
     private float y;
     private Sprite tileSprite;
-    private String spriteFilePath = "test_tile.png";
 
-    public TileData(float x, float y) {
-        this.tileSprite = new Sprite(new Texture(spriteFilePath));
+    public Tile(float x, float y, String filepath) {
+        this.tileSprite = new Sprite(new Texture(filepath));
         this.x = x;
         this.y = y;
     }
@@ -24,8 +27,6 @@ public class TileData {
     public void setY(float y) {
         this.y = y;
     }
-
-    public String getSpriteFilePath() { return spriteFilePath; }
 
     public Sprite getTileSprite() {
         return tileSprite;

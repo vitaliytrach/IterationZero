@@ -3,12 +3,10 @@ package com.mygdx.game.systems;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.mygdx.game.components.LocationComponent;
-import com.mygdx.game.data.TileData;
+import com.mygdx.game.components.MapComponent;
+import com.mygdx.game.data.Tile;
 import com.mygdx.game.engine.ComponentManager;
 import com.mygdx.game.engine.EntityManager;
-import com.mygdx.game.entities.Player;
-import com.mygdx.game.entities.Tile;
-import com.mygdx.game.entities.World;
 import com.mygdx.game.interfaces.ISystem;
 import com.mygdx.game.utils.EntityIDs;
 
@@ -18,7 +16,6 @@ public class MovementSystem implements ISystem {
 
     private int id;
     private String type;
-    private World world = null;
     private ComponentManager cm;
     private EntityManager em;
     private String direction;
@@ -40,10 +37,6 @@ public class MovementSystem implements ISystem {
 
     @Override
     public void render() {
-
-        if(world == null) {
-            world = (World) em.getEntity(EntityIDs.WORLD_ID);
-        }
 
         LocationComponent lc = (LocationComponent) cm.getComponent(EntityIDs.PLAYER_ID, "LocationComponent");
 
@@ -88,9 +81,11 @@ public class MovementSystem implements ISystem {
     }
 
     private void moveWorld() {
-        for(int i = 0; i < world.getHeight(); i++) {
-            for(int j = 0; j < world.getWidth(); j++) {
-                TileData tile = world.getTile(i, j);
+        MapComponent mc = (MapComponent) cm.getComponent(EntityIDs.WORLD_ID, "MapComponent");
+
+        for(int i = 0; i < mc.getHeight(); i++) {
+            for(int j = 0; j < mc.getWidth(); j++) {
+                Tile tile = mc.getTile(i, j);
                 tile.setX(tile.getX() + moveX);
                 tile.setY(tile.getY() + moveY);
             }

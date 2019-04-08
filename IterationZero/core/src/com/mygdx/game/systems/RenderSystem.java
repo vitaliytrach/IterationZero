@@ -1,6 +1,5 @@
 package com.mygdx.game.systems;
 
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.components.RenderComponent;

@@ -1,20 +1,21 @@
-package com.mygdx.game.entities;
+package com.mygdx.game.components;
 
-import com.mygdx.game.data.TileData;
-import com.mygdx.game.interfaces.IEntity;
+import com.mygdx.game.data.Tile;
+import com.mygdx.game.interfaces.IComponent;
 
-public class World implements IEntity {
+public class MapComponent implements IComponent {
 
-    private int id, width, height;
+    private int id;
     private String type;
-    private TileData[] tiles;
+    private Tile[] tiles;
+    private int width, height;
 
-    public World(int id, TileData[] tiles, int width, int height) {
+    public MapComponent(int id, Tile[] tiles, int width, int height) {
         this.id = id;
         this.tiles = tiles;
         this.width = width;
         this.height = height;
-        type = "WorldEntity";
+        type = "MapComponent";
     }
 
     public int getWidth() {
@@ -25,7 +26,7 @@ public class World implements IEntity {
         return this.height;
     }
 
-    public TileData getTile(int x, int y) {
+    public Tile getTile(int x, int y) {
         return tiles[(y * width) + x];
     }
 
