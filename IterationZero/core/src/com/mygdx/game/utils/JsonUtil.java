@@ -22,7 +22,9 @@ public class JsonUtil {
             String path = input.get(i).getString("sprite");
             int x = input.get(i).getInt("x");
             int y = input.get(i).getInt("y");
-            tiles[i] = new Tile(x, y, path);
+
+            // temporarily playing around with some hardcoded values to get the player centered.
+            tiles[i] = new Tile(x - 20, y - 300, path);
         }
 
         return tiles;

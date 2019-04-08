@@ -47,7 +47,7 @@ public class PlayerEntityBuilder implements IBuilder {
         componentList.add(new TransformComponent(id, new Vector2(320,240), new Vector2(0,0), new Vector2(0,0)));
         componentList.add(new RenderComponent(id, batch));
         componentList.add(new SpriteComponent(id, playerSprite));
-        componentList.add(new LocationComponent(id, 0,1,1));
+        componentList.add(new LocationComponent(id, 0,0,0));
     }
 
     @Override
