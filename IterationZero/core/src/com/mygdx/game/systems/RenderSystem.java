@@ -61,7 +61,7 @@ public class RenderSystem implements ISystem {
                     // Check to make sure only the Entities with a RenderSystem execute the follow code
                     if(systemManager.hasSystem(id, "RenderSystem")){
                         Sprite sprite = ((SpriteComponent) componentManager.getComponent(id, "SpriteComponent")).getSprite();
-                        TransformComponent tc = (TransformComponent) componentManager.getComponent(EntityIDs.PLAYER_ID, "TransformComponent");
+                        TransformComponent tc = (TransformComponent) componentManager.getComponent(id, "TransformComponent");
                         sprite.setCenter(tc.getPosition().x , tc.getPosition().y);
                         sprite.draw(batch);
                     }

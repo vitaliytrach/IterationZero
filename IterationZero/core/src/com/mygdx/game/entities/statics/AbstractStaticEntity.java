@@ -1,16 +1,11 @@
-package com.mygdx.game.entities;
+package com.mygdx.game.entities.statics;
 
 import com.mygdx.game.interfaces.IEntity;
 
-public class Map implements IEntity {
+public abstract class AbstractStaticEntity implements IEntity {
 
-    private int id;
-    private String type;
-
-    public Map(int id) {
-        this.id = id;
-        type = "WorldEntity";
-    }
+    protected int id;
+    protected String type;
 
     @Override
     public int getID() {
@@ -24,6 +19,6 @@ public class Map implements IEntity {
 
     @Override
     public boolean isStatic() {
-        return false;
+        return true;
     }
 }

@@ -21,4 +21,9 @@ public class Player implements IEntity {
     public String getType() {
         return type;
     }
+
+    @Override
+    public boolean isStatic() {
+        return false;
+    }
 }

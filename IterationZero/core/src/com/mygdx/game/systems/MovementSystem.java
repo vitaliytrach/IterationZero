@@ -2,13 +2,18 @@ package com.mygdx.game.systems;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.components.LocationComponent;
 import com.mygdx.game.components.MapComponent;
+import com.mygdx.game.components.TransformComponent;
 import com.mygdx.game.data.Tile;
 import com.mygdx.game.engine.ComponentManager;
 import com.mygdx.game.engine.EntityManager;
+import com.mygdx.game.interfaces.IEntity;
 import com.mygdx.game.interfaces.ISystem;
 import com.mygdx.game.utils.EntityIDs;
+
+import java.util.Map;
 
 public class MovementSystem implements ISystem {
 
@@ -82,6 +87,7 @@ public class MovementSystem implements ISystem {
             }
 
             moveWorld();
+            updateStaticEntities();
         }
     }
 
@@ -96,6 +102,15 @@ public class MovementSystem implements ISystem {
             }
         }
         counter++;
+    }
+
+    private void updateStaticEntities() {
+        for(Map.Entry<Integer, IEntity> e : em.getEntites().entrySet()) {
+            if(e.getValue().isStatic()) {
+                TransformComponent tc = (TransformComponent) cm.getComponent(e.getKey(), "TransformComponent");
+                tc.setPostion(new Vector2(tc.getPosition().x + moveX, tc.getPosition().y + moveY));
+            }
+        }
     }
 
     @Override

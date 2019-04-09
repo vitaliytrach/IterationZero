@@ -7,8 +7,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.builders.PlayerEntityBuilder;
+import com.mygdx.game.builders.StaticEntityBuilder;
 import com.mygdx.game.builders.WorldEntityBuilder;
 import com.mygdx.game.engine.ECSEngine;
+import com.mygdx.game.entities.statics.TreeEntity;
+import com.mygdx.game.utils.EntityIDs;
 
 public class IterationZero extends ApplicationAdapter {
 
@@ -32,9 +35,8 @@ public class IterationZero extends ApplicationAdapter {
 		while(!assetManager.update());
 
 		engine.addEntity(new PlayerEntityBuilder(batch, assetManager));
-
-		WorldEntityBuilder builder = new WorldEntityBuilder(batch);
-		engine.addEntity(builder);
+		engine.addEntity(new WorldEntityBuilder(batch));
+		engine.addEntity(new StaticEntityBuilder(new TreeEntity(EntityIDs.getNextID()), batch));
 	}
 
 	@Override
