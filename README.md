@@ -1,6 +1,6 @@
 # IterationZero
 
-Iterations Zero is a Isometric style game where the player can roam various maps, kill monsters, purchase new items 
+Iterations Zero is an Isometric style game where the player can roam various maps, kill monsters, purchase new items 
 with gold collected, and much more. Currently the game is in the early state of development, so be cautious that 
 not all the features have been implemented, and right now it's being built for single player only.
 
@@ -25,7 +25,7 @@ Install:
                       add a new "Application" configuration.
             - For the "Main class," find "com.mygdx.game.desktop.DesktopLauncher"
             - For "Working Directory," locate that assets folder.
-                    - It should be under "../IterationZero/sore/assets"
+                    - It should be under "../IterationZero/core/assets"
             - Lastly, select "Desktop" as the "Use Classpath of Module"
             - Click Apply -> Ok
     4. Build, and run the program
