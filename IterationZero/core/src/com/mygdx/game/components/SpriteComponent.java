@@ -23,6 +23,10 @@ public class SpriteComponent implements IComponent {
         return sprite;
     }
 
+    public void setSprite(Sprite sprite) {
+        this.sprite = sprite;
+    }
+
     @Override
     public int getID() {
         return id;

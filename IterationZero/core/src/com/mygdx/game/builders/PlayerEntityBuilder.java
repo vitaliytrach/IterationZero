@@ -4,15 +4,13 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.game.components.LocationComponent;
-import com.mygdx.game.components.RenderComponent;
-import com.mygdx.game.components.SpriteComponent;
-import com.mygdx.game.components.TransformComponent;
+import com.mygdx.game.components.*;
 import com.mygdx.game.entities.Player;
 import com.mygdx.game.interfaces.IBuilder;
 import com.mygdx.game.interfaces.IComponent;
 import com.mygdx.game.interfaces.IEntity;
 import com.mygdx.game.interfaces.ISystem;
+import com.mygdx.game.systems.AnimationSystem;
 import com.mygdx.game.systems.RenderSystem;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.utils.EntityIDs;
@@ -48,10 +46,13 @@ public class PlayerEntityBuilder implements IBuilder {
         componentList.add(new RenderComponent(id, batch));
         componentList.add(new SpriteComponent(id, playerSprite));
         componentList.add(new LocationComponent(id, 0,0,0));
+        componentList.add(new AnimationComponent(id, new Texture("player_spritesheet.png")));
+        componentList.add(new EntityStateComponent(id));
     }
 
     @Override
     public void buildSystemList() {
+        systemList.add(new AnimationSystem(player.getID()));
         systemList.add(new RenderSystem(player.getID()));
     }
 

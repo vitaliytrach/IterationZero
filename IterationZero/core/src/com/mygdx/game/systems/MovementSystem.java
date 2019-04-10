@@ -3,6 +3,7 @@ package com.mygdx.game.systems;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.components.EntityStateComponent;
 import com.mygdx.game.components.LocationComponent;
 import com.mygdx.game.components.MapComponent;
 import com.mygdx.game.components.TransformComponent;
@@ -23,20 +24,16 @@ public class MovementSystem implements ISystem {
     private String type;
     private ComponentManager cm;
     private EntityManager em;
-    private String direction;
     private float moveX, moveY;
-    private boolean isMoving;
     private int counter;
 
     public MovementSystem(int id) {
         this.id = id;
         type = "MovementSystem";
-        direction = "idle";
         cm = ComponentManager.getInstance();
         em = EntityManager.getInstance();
         moveX = (Tile.DEFAULT_TILE_WIDTH / 2) / TICKS_PER_BLOCK_MOVEMENT;
         moveY = (Tile.DEFAULT_TILE_HEIGHT /2) / TICKS_PER_BLOCK_MOVEMENT;
-        isMoving = false;
         counter = 0;
     }
 
@@ -45,44 +42,45 @@ public class MovementSystem implements ISystem {
 
         LocationComponent lc = (LocationComponent) cm.getComponent(EntityIDs.PLAYER_ID, "LocationComponent");
         MapComponent mc = (MapComponent) cm.getComponent(EntityIDs.WORLD_ID, "MapComponent");
+        EntityStateComponent esc = (EntityStateComponent) cm.getComponent(EntityIDs.PLAYER_ID, "EntityStateComponent");
+        String direction = esc.getDirection();
 
-        if(direction == "idle") {
+        if(!esc.isMoving()) {
             if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
                 if((lc.getY() - 1) < 0) { return; }
                 lc.setY(lc.getY() - 1);
-                direction = "up";
+                esc.changeDirection("up");
                 moveX = Math.abs(moveX) * -1;
                 moveY = Math.abs(moveY) * -1;
-                isMoving = true;
+                esc.setMoveStatus(true);
             } else if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
                 if((lc.getY() + 1) > mc.getHeight() - 1) { return; }
                 lc.setY(lc.getY() + 1);
-                direction = "down";
+                esc.changeDirection("down");
                 moveX = Math.abs(moveX);
                 moveY = Math.abs(moveY);
-                isMoving = true;
+                esc.setMoveStatus(true);
             } else if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
                 if((lc.getX() - 1) < 0) { return; }
                 lc.setX(lc.getX() - 1);
-                direction = "left";
+                esc.changeDirection("left");
                 moveX = Math.abs(moveX);
                 moveY = Math.abs(moveY) * -1;
-                isMoving = true;
+                esc.setMoveStatus(true);
             } else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                 if((lc.getX() + 1) > mc.getWidth() - 1) { return; }
                 lc.setX(lc.getX() + 1);
-                direction = "right";
+                esc.changeDirection("right");
                 moveX = Math.abs(moveX) * -1;
                 moveY = Math.abs(moveY);
-                isMoving = true;
+                esc.setMoveStatus(true);
             }
         }
 
-        if(isMoving) {
+        if(esc.isMoving()) {
             if(counter >= TICKS_PER_BLOCK_MOVEMENT) {
                 counter = 0;
-                direction = "idle";
-                isMoving = false;
+                esc.setMoveStatus(false);
                 return;
             }
 
