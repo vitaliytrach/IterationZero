@@ -1,35 +1,21 @@
 package com.mapbuilder.game.components;
 
+import com.badlogic.ashley.core.Component;
+import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mapbuilder.game.interfaces.IComponent;
+import com.mapbuilder.game.engine.GameAssetManager;
 
-/**
- * The RenderComponent is responsible of holding the SpriteBatch
- * that an entity can use.
- */
-public class RenderComponent implements IComponent {
+public class RenderComponent implements Component {
 
-    private int id;
-    private String type;
-    private SpriteBatch batch;
+    public Texture texture;
 
-    public RenderComponent(int id, SpriteBatch batch) {
-        this.id = id;
-        this.batch = batch;
-        type = "RenderComponent";
+    public RenderComponent(Texture texture){
+        this.texture = texture;
     }
 
-    public SpriteBatch getSpriteBatch() {
-        return batch;
-    }
 
-    @Override
-    public int getID() {
-        return id;
-    }
 
-    @Override
-    public String getType() {
-        return type;
-    }
+
+
 }
