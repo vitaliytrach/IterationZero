@@ -1,5 +1,6 @@
 package com.mygdx.game.data;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
@@ -12,8 +13,8 @@ public class Tile {
     private float y;
     private Sprite tileSprite;
 
-    public Tile(float x, float y, String filepath) {
-        this.tileSprite = new Sprite(new Texture(filepath));
+    public Tile(float x, float y, String filepath, AssetManager am) {
+        this.tileSprite = new Sprite(am.get(filepath, Texture.class));
         this.x = x;
         this.y = y;
     }

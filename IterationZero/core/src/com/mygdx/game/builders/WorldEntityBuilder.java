@@ -1,5 +1,6 @@
 package com.mygdx.game.builders;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.components.MapComponent;
 import com.mygdx.game.components.PositionComponent;
@@ -24,8 +25,10 @@ public class WorldEntityBuilder implements IBuilder {
     private SpriteBatch batch;
     private int id;
     private IEntity map;
+    private AssetManager am;
 
-    public WorldEntityBuilder(SpriteBatch batch) {
+    public WorldEntityBuilder(SpriteBatch batch, AssetManager am) {
+        this.am = am;
         componentList = new ArrayList<IComponent>();
         systemList = new ArrayList<ISystem>();
         id = EntityIDs.WORLD_ID;
@@ -40,7 +43,7 @@ public class WorldEntityBuilder implements IBuilder {
     public void buildComponentList() {
         int width = 100;
         int height = 100;
-        Tile[] tiles = JsonUtil.getMap("maps/1.json");
+        Tile[] tiles = JsonUtil.getMap("maps/1.json", am);
 
         componentList.add(new MapComponent(id, tiles, width, height));
         componentList.add(new PositionComponent(id, 340, 480));

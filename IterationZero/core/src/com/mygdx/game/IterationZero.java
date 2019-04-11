@@ -33,11 +33,12 @@ public class IterationZero extends ApplicationAdapter {
 		engine = new ECSEngine(batch,camera);
 
 		assetManager.load("test_player2.png", Texture.class);
+		assetManager.load("test_tile.png", Texture.class);
 		// Block for the assetManager to load since it's done asynchronously
 		while(!assetManager.update());
 
 		engine.addEntity(new PlayerEntityBuilder(batch, assetManager));
-		engine.addEntity(new WorldEntityBuilder(batch));
+		engine.addEntity(new WorldEntityBuilder(batch, assetManager));
 		engine.addEntity(new StaticEntityBuilder(new TreeEntity(EntityIDs.getNextID()), batch));
 		engine.addEntity(new NPCEntityBuilder(new Goat(EntityIDs.getNextID()), batch));
 	}

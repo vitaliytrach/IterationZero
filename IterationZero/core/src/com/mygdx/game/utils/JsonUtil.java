@@ -2,6 +2,7 @@ package com.mygdx.game.utils;
 
 import com.badlogic.gdx.Gdx;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import com.mygdx.game.data.Tile;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 
 public class JsonUtil {
 
-    public static Tile[] getMap(String filepath) {
+    public static Tile[] getMap(String filepath, AssetManager am) {
 
         Tile[] tiles;
 
@@ -24,7 +25,7 @@ public class JsonUtil {
             int y = input.get(i).getInt("y");
 
             // temporarily playing around with some hardcoded values to get the player centered.
-            tiles[i] = new Tile(x - 15, y - 290, path);
+            tiles[i] = new Tile(x - 15, y - 290, path, am);
         }
 
         return tiles;

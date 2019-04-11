@@ -40,8 +40,8 @@ public class StaticEntityBuilder implements IBuilder {
     public void buildComponentList() {
 
         cl.add(new TransformComponent(id,
-                new Vector2(320,240), new Vector2(0,0), new Vector2(0,0)));
-        cl.add(new LocationComponent(id, 1, 1,1));
+                new Vector2(390,220), new Vector2(0,0), new Vector2(0,0)));
+        cl.add(new LocationComponent(id, 1, 0,1));
         cl.add(new SpriteComponent(id, new Sprite(new Texture("test_tree.png"))));
         cl.add(new RenderComponent(id, batch));
     }
