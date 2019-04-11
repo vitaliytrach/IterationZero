@@ -39,7 +39,7 @@ public class NPCEntityBuilder implements IBuilder {
         cl.add(new SpriteComponent(id, sprite));
         cl.add(new TransformComponent(id,
                 new Vector2(325,165), new Vector2(0,0), new Vector2(0,0)));
-        cl.add(new LocationComponent(id, 1, 0,0));
+        cl.add(new LocationComponent(id, 1, 1,1));
         cl.add(new RenderComponent(id, batch));
         cl.add(new EntityStateComponent(id));
     }

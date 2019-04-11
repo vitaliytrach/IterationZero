@@ -35,20 +35,21 @@ public class AnimationSystem implements ISystem {
         AnimationComponent ac = (AnimationComponent) cm.getComponent(id, "AnimationComponent");
         EntityStateComponent esc = (EntityStateComponent) cm.getComponent(id, "EntityStateComponent");
 
+        if(esc.getDirection() == "up") {
+            startX = 5;
+            startY = 1;
+        } else if(esc.getDirection() == "down") {
+            startX = 0;
+            startY = 0;
+        } else if(esc.getDirection() == "right") {
+            startX = 5;
+            startY = 0;
+        } else if(esc.getDirection() == "left") {
+            startX = 0;
+            startY = 1;
+        }
+
         if(esc.isMoving()) {
-            if(esc.getDirection() == "up") {
-                startX = 5;
-                startY = 1;
-            } else if(esc.getDirection() == "down") {
-                startX = 0;
-                startY = 0;
-            } else if(esc.getDirection() == "right") {
-                startX = 5;
-                startY = 0;
-            } else if(esc.getDirection() == "left") {
-                startX = 0;
-                startY = 1;
-            }
 
             if(counter >= 32) {
                 offset = 0;

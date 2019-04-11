@@ -11,6 +11,7 @@ import com.mygdx.game.interfaces.IComponent;
 import com.mygdx.game.interfaces.IEntity;
 import com.mygdx.game.interfaces.ISystem;
 import com.mygdx.game.systems.AnimationSystem;
+import com.mygdx.game.systems.CollisionDetectionSystem;
 import com.mygdx.game.systems.RenderSystem;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.utils.EntityIDs;
@@ -54,6 +55,7 @@ public class PlayerEntityBuilder implements IBuilder {
     public void buildSystemList() {
         systemList.add(new AnimationSystem(player.getID()));
         systemList.add(new RenderSystem(player.getID()));
+        systemList.add(new CollisionDetectionSystem(player.getID()));
     }
 
     @Override

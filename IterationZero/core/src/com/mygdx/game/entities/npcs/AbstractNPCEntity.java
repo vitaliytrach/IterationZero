@@ -1,16 +1,11 @@
-package com.mygdx.game.entities;
+package com.mygdx.game.entities.npcs;
 
 import com.mygdx.game.interfaces.IEntity;
 
-public class Goat implements IEntity {
+public abstract class AbstractNPCEntity implements IEntity {
 
-    private int id;
-    private String type;
-
-    public Goat(int id) {
-        this.id = id;
-        type = "GoatEntity";
-    }
+    protected int id;
+    protected String type;
 
     @Override
     public int getID() {

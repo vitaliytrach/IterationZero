@@ -54,6 +54,7 @@ public class MovementSystem implements ISystem {
         MapComponent mc = (MapComponent) cm.getComponent(EntityIDs.WORLD_ID, "MapComponent");
         EntityStateComponent esc = (EntityStateComponent) cm.getComponent(EntityIDs.PLAYER_ID, "EntityStateComponent");
 
+        int direction = 0;
         /**
          * This next if statement checks if the character is NOT moving,
          * if he's not moving then it checks if any of the movement keys
@@ -64,30 +65,34 @@ public class MovementSystem implements ISystem {
          */
         if(!esc.isMoving()) {
             if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-                if((lc.getY() - 1) < 0) { return; }
-                lc.setY(lc.getY() - 1);
                 esc.changeDirection("up");
+                if((lc.getY() - 1) < 0) { return; }
+                if(esc.hasNeighbor(EntityStateComponent.UP)) { return; }
+                lc.setY(lc.getY() - 1);
                 moveX = Math.abs(moveX) * -1;
                 moveY = Math.abs(moveY) * -1;
                 esc.setMoveStatus(true);
             } else if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-                if((lc.getY() + 1) > mc.getHeight() - 1) { return; }
-                lc.setY(lc.getY() + 1);
                 esc.changeDirection("down");
+                if((lc.getY() + 1) > mc.getHeight() - 1) { return; }
+                if(esc.hasNeighbor(EntityStateComponent.DOWN)) { return; }
+                lc.setY(lc.getY() + 1);
                 moveX = Math.abs(moveX);
                 moveY = Math.abs(moveY);
                 esc.setMoveStatus(true);
             } else if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                if((lc.getX() - 1) < 0) { return; }
-                lc.setX(lc.getX() - 1);
                 esc.changeDirection("left");
+                if((lc.getX() - 1) < 0) { return; }
+                if(esc.hasNeighbor(EntityStateComponent.LEFT)) { return; }
+                lc.setX(lc.getX() - 1);
                 moveX = Math.abs(moveX);
                 moveY = Math.abs(moveY) * -1;
                 esc.setMoveStatus(true);
             } else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                if((lc.getX() + 1) > mc.getWidth() - 1) { return; }
-                lc.setX(lc.getX() + 1);
                 esc.changeDirection("right");
+                if((lc.getX() + 1) > mc.getWidth() - 1) { return; }
+                if(esc.hasNeighbor(EntityStateComponent.RIGHT)) { return; }
+                lc.setX(lc.getX() + 1);
                 moveX = Math.abs(moveX) * -1;
                 moveY = Math.abs(moveY);
                 esc.setMoveStatus(true);
@@ -95,6 +100,7 @@ public class MovementSystem implements ISystem {
         }
 
         if(esc.isMoving()) {
+
             if(counter >= TICKS_PER_BLOCK_MOVEMENT) {
                 counter = 0;
                 esc.setMoveStatus(false);

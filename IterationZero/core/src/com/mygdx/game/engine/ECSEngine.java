@@ -21,13 +21,11 @@ public class ECSEngine {
     private SystemManager systemManager;
     private EntityManager entityManager;
     private SpriteBatch batch;
-    private Camera camera;
 
-    public ECSEngine(SpriteBatch batch, Camera camera) {
+    public ECSEngine(SpriteBatch batch) {
         componentManager = ComponentManager.getInstance();
         systemManager = SystemManager.getInstance();
         entityManager = EntityManager.getInstance();
-        this.camera = camera;
         this.batch = batch;
     }
 
