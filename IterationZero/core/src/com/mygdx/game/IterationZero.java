@@ -6,10 +6,12 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.builders.NPCEntityBuilder;
 import com.mygdx.game.builders.PlayerEntityBuilder;
 import com.mygdx.game.builders.StaticEntityBuilder;
 import com.mygdx.game.builders.WorldEntityBuilder;
 import com.mygdx.game.engine.ECSEngine;
+import com.mygdx.game.entities.Goat;
 import com.mygdx.game.entities.statics.TreeEntity;
 import com.mygdx.game.utils.EntityIDs;
 
@@ -37,6 +39,7 @@ public class IterationZero extends ApplicationAdapter {
 		engine.addEntity(new PlayerEntityBuilder(batch, assetManager));
 		engine.addEntity(new WorldEntityBuilder(batch));
 		engine.addEntity(new StaticEntityBuilder(new TreeEntity(EntityIDs.getNextID()), batch));
+		engine.addEntity(new NPCEntityBuilder(new Goat(EntityIDs.getNextID()), batch));
 	}
 
 	@Override

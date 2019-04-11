@@ -127,8 +127,11 @@ public class MovementSystem implements ISystem {
      */
     private void updateStaticEntities() {
         for(Map.Entry<Integer, IEntity> e : em.getEntites().entrySet()) {
+            TransformComponent tc = (TransformComponent) cm.getComponent(e.getKey(), "TransformComponent");
+
             if(e.getValue().isStatic()) {
-                TransformComponent tc = (TransformComponent) cm.getComponent(e.getKey(), "TransformComponent");
+                tc.setPostion(new Vector2(tc.getPosition().x + moveX, tc.getPosition().y + moveY));
+            } else if(e.getValue().getType() == "GoatEntity"){
                 tc.setPostion(new Vector2(tc.getPosition().x + moveX, tc.getPosition().y + moveY));
             }
         }

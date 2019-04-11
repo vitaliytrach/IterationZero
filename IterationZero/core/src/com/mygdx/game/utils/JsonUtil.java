@@ -24,7 +24,7 @@ public class JsonUtil {
             int y = input.get(i).getInt("y");
 
             // temporarily playing around with some hardcoded values to get the player centered.
-            tiles[i] = new Tile(x - 20, y - 300, path);
+            tiles[i] = new Tile(x - 15, y - 290, path);
         }
 
         return tiles;
