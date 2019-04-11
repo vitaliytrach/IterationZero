@@ -16,9 +16,19 @@ import com.mygdx.game.utils.EntityIDs;
 
 import java.util.Map;
 
+/**
+ * The MovementSystem is responsible off moving the whole world
+ * when a player wants to move. Essentially the player is always
+ * centered, and everything else moves, giving the illusion that
+ * the character is moving.
+ */
 public class MovementSystem implements ISystem {
 
-    private static final int TICKS_PER_BLOCK_MOVEMENT = 32;
+    /**
+     * Variable that states how fast the player can move 1 block.
+     * For example, 32 ticks means that it takes the player 32 ticks to move 1 block.
+     */
+    public static final int TICKS_PER_BLOCK_MOVEMENT = 32;
 
     private int id;
     private String type;
@@ -43,8 +53,15 @@ public class MovementSystem implements ISystem {
         LocationComponent lc = (LocationComponent) cm.getComponent(EntityIDs.PLAYER_ID, "LocationComponent");
         MapComponent mc = (MapComponent) cm.getComponent(EntityIDs.WORLD_ID, "MapComponent");
         EntityStateComponent esc = (EntityStateComponent) cm.getComponent(EntityIDs.PLAYER_ID, "EntityStateComponent");
-        String direction = esc.getDirection();
 
+        /**
+         * This next if statement checks if the character is NOT moving,
+         * if he's not moving then it checks if any of the movement keys
+         * are pressed, and updating all relevant information once they are pressed.
+         * Such as: isMoving = true, player map x and y position gets updated,
+         *          and the moveX and moveY variables are set to the proper
+         *          speed and direction.
+         */
         if(!esc.isMoving()) {
             if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
                 if((lc.getY() - 1) < 0) { return; }
@@ -89,6 +106,9 @@ public class MovementSystem implements ISystem {
         }
     }
 
+    /**
+     * Moving all the world tiles
+     */
     private void moveWorld() {
         MapComponent mc = (MapComponent) cm.getComponent(EntityIDs.WORLD_ID, "MapComponent");
 
@@ -102,6 +122,9 @@ public class MovementSystem implements ISystem {
         counter++;
     }
 
+    /**
+     * Moving all the static world entities, like tress, rocks etc...
+     */
     private void updateStaticEntities() {
         for(Map.Entry<Integer, IEntity> e : em.getEntites().entrySet()) {
             if(e.getValue().isStatic()) {

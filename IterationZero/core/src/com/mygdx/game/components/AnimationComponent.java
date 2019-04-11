@@ -20,28 +20,13 @@ public class AnimationComponent implements IComponent {
         this.id = id;
         this.animationSheet = animationSheet;
         type = "AnimationComponent";
-
-        init();
-    }
-
-    private void init() {
-
         spritesheet = TextureRegion.split(animationSheet,
                 animationSheet.getWidth() / SPRITESHEET_WIDTH,
                 animationSheet.getHeight() / SPRITESHEET_HEIGHT);
-
-        TextureRegion[] walkFrames = new TextureRegion[SPRITESHEET_WIDTH * SPRITESHEET_HEIGHT];
-        int index = 0;
-        for (int i = 0; i < SPRITESHEET_HEIGHT; i++) {
-            for (int j = 0; j < SPRITESHEET_WIDTH; j++) {
-                walkFrames[index++] = spritesheet[i][j];
-            }
-        }
-        animation = new Animation<TextureRegion>(32f/60f, walkFrames);
     }
 
-    public Animation<TextureRegion> getAnimation() {
-        return animation;
+    public TextureRegion getFrame(int x, int y) {
+        return spritesheet[x][y];
     }
 
     @Override
