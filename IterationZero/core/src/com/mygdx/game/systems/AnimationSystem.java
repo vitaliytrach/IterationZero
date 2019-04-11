@@ -1,15 +1,11 @@
 package com.mygdx.game.systems;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.game.components.AnimationComponent;
 import com.mygdx.game.components.EntityStateComponent;
 import com.mygdx.game.components.SpriteComponent;
 import com.mygdx.game.engine.ComponentManager;
 import com.mygdx.game.interfaces.ISystem;
-
-import java.util.concurrent.TimeUnit;
 
 public class AnimationSystem implements ISystem {
 
@@ -18,10 +14,9 @@ public class AnimationSystem implements ISystem {
     private int id;
     private String type;
     private ComponentManager cm;
-    private float stateTime = 0f;
     private int switchTime;
     private int counter;
-    private int xOffset, yOffset, startX, startY;
+    private int offset, startX, startY;
 
     public AnimationSystem(int id) {
         this.id = id;
@@ -29,20 +24,9 @@ public class AnimationSystem implements ISystem {
         type = "AnimationSystem";
         switchTime = MovementSystem.TICKS_PER_BLOCK_MOVEMENT / MOVEMENT_FRAMES;
         counter = 0;
-        xOffset = 0;
-        yOffset = 0;
+        offset = 0;
         startX = 0;
         startY = 0;
-    }
-
-    @Override
-    public int getID() {
-        return id;
-    }
-
-    @Override
-    public String getType() {
-        return type;
     }
 
     @Override
@@ -66,23 +50,29 @@ public class AnimationSystem implements ISystem {
                 startY = 1;
             }
 
-            counter++;
-
             if(counter >= 32) {
-                yOffset = 0;
-                xOffset = 0;
+                offset = 0;
                 counter = 0;
             }
 
             if(counter % switchTime == 0) {
-                xOffset++;
-                sc.setSprite(new Sprite(ac.getFrame(startY, startX + xOffset)));
+                sc.setSprite(new Sprite(ac.getFrame(startY, startX + offset)));
+                offset++;
             }
+
+            counter++;
         } else {
-            yOffset = 0;
-            counter = 0;
-            xOffset = 0;
             sc.setSprite(new Sprite(ac.getFrame(startY, startX)));
         }
+    }
+
+    @Override
+    public int getID() {
+        return id;
+    }
+
+    @Override
+    public String getType() {
+        return type;
     }
 }
