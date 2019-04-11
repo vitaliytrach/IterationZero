@@ -1,53 +1,47 @@
 package com.mapbuilder.game;
 
+import com.badlogic.ashley.core.*;
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-import com.mapbuilder.game.builders.PlayerEntityBuilder;
-import com.mapbuilder.game.builders.WorldEntityBuilder;
-import com.mapbuilder.game.data.TileData;
-import com.mapbuilder.game.engine.ECSEngine;
-import com.mapbuilder.game.entities.Player;
-import com.mapbuilder.game.interfaces.IEntity;
-import com.mapbuilder.game.utils.EntityIDs;
-import com.mapbuilder.game.utils.GenerateMap;
+import com.badlogic.gdx.math.Vector2;
+import com.mapbuilder.game.components.RenderComponent;
+import com.mapbuilder.game.components.TransformComponent;
+import com.mapbuilder.game.engine.GameAssetManager;
+import com.mapbuilder.game.engine.GameEngine;
+import com.mapbuilder.game.systems.RenderSystem;
 
 
 
 public class MapBuilderMain extends ApplicationAdapter {
-	private SpriteBatch batch;
-	private AssetManager assetManager;
-	private ECSEngine engine;
+	private Engine engine;
+	private GameAssetManager gameAssetManager;
 
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
-		assetManager = new AssetManager();
-		engine = ECSEngine.getInstance(batch);
+		engine = GameEngine.getInstance().engine;
 
-		assetManager.load("test_player.png", Texture.class);
-		// Block for the assetManager to load since it's done asynchronously
-		while(!assetManager.update());
+		// load asset manager
+		gameAssetManager = new GameAssetManager();
+		gameAssetManager.loadTextures();
+		while(!gameAssetManager.assetManager.update());
 
-		IEntity player = new Player(EntityIDs.PLAYER_ID);
-		engine.addEntity(new PlayerEntityBuilder(player, batch, assetManager));
 
-		int width = 10;
-		int height = 10;
-		TileData[] world = GenerateMap.generateMap(width, height);
-		WorldEntityBuilder builder = new WorldEntityBuilder(world, batch, width, height);
-		engine.addEntity(builder);
+		// build world
+		Entity world = new Entity();
+		world.add(new TransformComponent(new Vector2(0,0),new Vector2(0,0),new Vector2(0,0)));
+		world.add(new RenderComponent((Texture) gameAssetManager.assetManager.get(gameAssetManager.playerTexture)));
+		engine.addEntity(world);
+
+
+		// add systems to engine
+		engine.addSystem(new RenderSystem());
 	}
 
 	@Override
-	public void render () {
-		engine.render();
+	public void render () { engine.update(Gdx.graphics.getDeltaTime());
 	}
 
-	@Override
-	public void dispose () {
-		batch.dispose();
-	}
 }
