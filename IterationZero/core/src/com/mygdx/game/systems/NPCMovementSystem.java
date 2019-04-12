@@ -1,6 +1,10 @@
 package com.mygdx.game.systems;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.components.EntityStateComponent;
+import com.mygdx.game.components.LocationComponent;
+import com.mygdx.game.components.TransformComponent;
+import com.mygdx.game.data.Tile;
 import com.mygdx.game.engine.ComponentManager;
 import com.mygdx.game.interfaces.ISystem;
 import com.mygdx.game.utils.DirectionAdapter;
@@ -14,6 +18,8 @@ public class NPCMovementSystem implements ISystem {
     private ComponentManager cm;
     private int moveP;
     private Random rand;
+    private float moveX, moveY;
+    private int direction, counter;
 
     public NPCMovementSystem(int id) {
         this.id = id;
@@ -21,6 +27,10 @@ public class NPCMovementSystem implements ISystem {
         moveP = 50;
         cm = ComponentManager.getInstance();
         rand = new Random();
+        direction = 0;
+        counter = 0;
+        moveX = (Tile.DEFAULT_TILE_WIDTH / 2) / MovementSystem.TICKS_PER_BLOCK_MOVEMENT;
+        moveY = (Tile.DEFAULT_TILE_HEIGHT / 2)/ MovementSystem.TICKS_PER_BLOCK_MOVEMENT;
     }
 
     @Override
@@ -35,25 +45,60 @@ public class NPCMovementSystem implements ISystem {
 
     @Override
     public void render() {
-        EntityStateComponent esc = (EntityStateComponent) cm.getComponent(id, "EntityComponentSystem");
+        EntityStateComponent esc = (EntityStateComponent) cm.getComponent(id, "EntityStateComponent");
 
         if(!esc.isMoving()) {
             int roll = rand.nextInt(100);
 
             if(roll <= moveP) {
-                int dir = rand.nextInt(4);
+                direction = rand.nextInt(4);
 
-                if(esc.hasNeighbor(dir)) {
+                if(!esc.hasNeighbor(direction)) {
                     moveP = moveP + (moveP >> 1);
-                } else {
-                    move(DirectionAdapter.intToStringDirection(dir));
+                }  else {
+                    esc.setMoveStatus(true);
+                    moveP = 0;
+                    String dir = DirectionAdapter.intToStringDirection(direction);
+                    LocationComponent lc = (LocationComponent) cm.getComponent(id, "LocationComponent");
+
+                    if(dir == "up") {
+                        lc.setY(lc.getY() - 1);
+                        moveX = Math.abs(moveX) * -1;
+                        moveY = Math.abs(moveY) * -1;
+                    } else if(dir == "down") {
+                        lc.setY(lc.getY() + 1);
+                        moveX = Math.abs(moveX);
+                        moveY = Math.abs(moveY);
+                    } else if(dir == "right") {
+                        lc.setX(lc.getX() + 1);
+                        moveX = Math.abs(moveX);
+                        moveY = Math.abs(moveY) * -1;
+                    } else if(dir == "left") {
+                        lc.setX(lc.getX() - 1);
+                        moveX = Math.abs(moveX) * -1;
+                        moveY = Math.abs(moveY);
+                    }
                 }
             }
         }
+
+        if(esc.isMoving()) {
+
+            if(counter >= MovementSystem.TICKS_PER_BLOCK_MOVEMENT) {
+                counter = 0;
+                moveX = (Tile.DEFAULT_TILE_WIDTH / 2) / MovementSystem.TICKS_PER_BLOCK_MOVEMENT;
+                moveY = (Tile.DEFAULT_TILE_HEIGHT / 2)/ MovementSystem.TICKS_PER_BLOCK_MOVEMENT;
+                esc.setMoveStatus(false);
+                return;
+            }
+
+            move();
+        }
     }
 
-    private void move(String direction) {
-       // if(direction)
-
+    private void move() {
+        TransformComponent tc = (TransformComponent) cm.getComponent(id, "TransformComponent");
+        tc.setPostion(new Vector2(tc.getPosition().x + moveX, tc.getPosition().y + moveY));
+        counter++;
     }
 }

@@ -9,6 +9,7 @@ import com.mygdx.game.interfaces.IBuilder;
 import com.mygdx.game.interfaces.IComponent;
 import com.mygdx.game.interfaces.IEntity;
 import com.mygdx.game.interfaces.ISystem;
+import com.mygdx.game.systems.NPCMovementSystem;
 import com.mygdx.game.systems.RenderSystem;
 
 import java.util.ArrayList;
@@ -46,7 +47,9 @@ public class NPCEntityBuilder implements IBuilder {
 
     @Override
     public void buildSystemList() {
+
         sl.add(new RenderSystem(id));
+        sl.add(new NPCMovementSystem(id));
     }
 
     @Override
