@@ -29,6 +29,7 @@ public class MovementSystem implements ISystem {
      * For example, 32 ticks means that it takes the player 32 ticks to move 1 block.
      */
     public static final int TICKS_PER_BLOCK_MOVEMENT = 32;
+    public static final int MOVEMENT_DIRECTIONS = 4;
 
     private int id;
     private String type;
