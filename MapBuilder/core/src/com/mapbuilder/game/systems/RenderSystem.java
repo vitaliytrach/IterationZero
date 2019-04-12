@@ -30,12 +30,16 @@ public class RenderSystem extends EntitySystem {
 
     @Override
     public void update(float deltaTime){
+
         for (int i = 0; i < renderEntities.size(); i++){
+
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // This cryptic line clears the screen.
             batch.begin();
             Entity entity = renderEntities.get(i);
             Vector2 position = entity.getComponent(TransformComponent.class).position;
-            batch.draw(entity.getComponent(RenderComponent.class).texture, position.x, position.y);
+            Sprite sprite = entity.getComponent(RenderComponent.class).sprite;
+            sprite.setCenter(position.x, position.y);
+            sprite.draw(batch);
             batch.end();
         }
     }
