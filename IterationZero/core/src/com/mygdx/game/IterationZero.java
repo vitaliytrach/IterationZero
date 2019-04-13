@@ -33,8 +33,8 @@ public class IterationZero extends ApplicationAdapter {
 		// Block for the assetManager to load since it's done asynchronously
 		while(!assetManager.update());
 
-		engine.addEntity(new PlayerEntityBuilder(batch, assetManager));
 		engine.addEntity(new WorldEntityBuilder(batch, assetManager));
+		engine.addEntity(new PlayerEntityBuilder(batch, assetManager));
 		engine.addEntity(new StaticEntityBuilder(new TreeEntity(EntityIDs.getNextID()), batch));
 		engine.addEntity(new NPCEntityBuilder(new Goat(EntityIDs.getNextID()), batch));
 	}

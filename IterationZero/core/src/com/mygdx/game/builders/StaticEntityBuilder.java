@@ -8,12 +8,12 @@ import com.mygdx.game.components.LocationComponent;
 import com.mygdx.game.components.RenderComponent;
 import com.mygdx.game.components.SpriteComponent;
 import com.mygdx.game.components.TransformComponent;
+import com.mygdx.game.engine.WallManager;
 import com.mygdx.game.interfaces.IBuilder;
 import com.mygdx.game.interfaces.IComponent;
 import com.mygdx.game.interfaces.IEntity;
 import com.mygdx.game.interfaces.ISystem;
 import com.mygdx.game.systems.RenderSystem;
-import com.mygdx.game.utils.EntityIDs;
 
 import java.util.ArrayList;
 
@@ -23,6 +23,7 @@ public class StaticEntityBuilder implements IBuilder {
     private ArrayList<IComponent> cl;
     private ArrayList<ISystem> sl;
     private SpriteBatch batch;
+    private WallManager wm;
     private int id;
 
     public StaticEntityBuilder(IEntity entity, SpriteBatch batch) {
@@ -31,6 +32,7 @@ public class StaticEntityBuilder implements IBuilder {
         cl = new ArrayList<IComponent>();
         sl = new ArrayList<ISystem>();
         id = entity.getID();
+        wm = WallManager.getInstance();
 
         buildComponentList();
         buildSystemList();
@@ -44,6 +46,8 @@ public class StaticEntityBuilder implements IBuilder {
         cl.add(new LocationComponent(id, 1, 0,1));
         cl.add(new SpriteComponent(id, new Sprite(new Texture("test_tree.png"))));
         cl.add(new RenderComponent(id, batch));
+
+        wm.setWallStatus(1,1,0,true);
     }
 
     @Override

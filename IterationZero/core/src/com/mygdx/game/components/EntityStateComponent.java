@@ -29,7 +29,7 @@ public class EntityStateComponent implements IComponent {
     }
 
     public boolean hasNeighbor(int index) {
-        return availableDirections[index];
+        return !availableDirections[index];
     }
 
     public void setAvailableDirections(boolean[] availableDirections) {

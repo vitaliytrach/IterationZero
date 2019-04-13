@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.components.*;
+import com.mygdx.game.engine.WallManager;
 import com.mygdx.game.interfaces.IBuilder;
 import com.mygdx.game.interfaces.IComponent;
 import com.mygdx.game.interfaces.IEntity;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 
 public class NPCEntityBuilder implements IBuilder {
 
+    private WallManager wm;
     private ArrayList<IComponent> cl;
     private ArrayList<ISystem> sl;
     private IEntity entity;
@@ -29,6 +31,7 @@ public class NPCEntityBuilder implements IBuilder {
         cl = new ArrayList<IComponent>();
         sl = new ArrayList<ISystem>();
         id = entity.getID();
+        wm = WallManager.getInstance();
 
         buildComponentList();
         buildSystemList();
@@ -44,13 +47,15 @@ public class NPCEntityBuilder implements IBuilder {
         cl.add(new LocationComponent(id, 1, 1,1));
         cl.add(new RenderComponent(id, batch));
         cl.add(new EntityStateComponent(id));
+
+        //wm.setWallStatus(1,1,1,true);
     }
 
     @Override
     public void buildSystemList() {
         sl.add(new RenderSystem(id));
         sl.add(new NPCMovementSystem(id));
-        sl.add(new CollisionDetectionSystem(id));
+        //sl.add(new CollisionDetectionSystem(id));
     }
 
     @Override

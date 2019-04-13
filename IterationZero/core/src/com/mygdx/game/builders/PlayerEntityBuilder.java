@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.components.*;
+import com.mygdx.game.engine.WallManager;
 import com.mygdx.game.entities.Player;
 import com.mygdx.game.interfaces.IBuilder;
 import com.mygdx.game.interfaces.IComponent;
@@ -26,6 +27,7 @@ public class PlayerEntityBuilder implements IBuilder {
     private ArrayList<IComponent> componentList;
     private ArrayList<ISystem> systemList;
     private AssetManager assetManager;
+    private WallManager wm;
 
     public PlayerEntityBuilder(SpriteBatch batch, AssetManager assetManager) {
         this.assetManager = assetManager;
@@ -33,6 +35,8 @@ public class PlayerEntityBuilder implements IBuilder {
         player = new Player(EntityIDs.PLAYER_ID);
         componentList = new ArrayList<IComponent>();
         systemList = new ArrayList<ISystem>();
+        wm = WallManager.getInstance();
+
         buildComponentList();
         buildSystemList();
     }
@@ -46,9 +50,11 @@ public class PlayerEntityBuilder implements IBuilder {
         componentList.add(new TransformComponent(id, new Vector2(320,240), new Vector2(0,0), new Vector2(0,0)));
         componentList.add(new RenderComponent(id, batch));
         componentList.add(new SpriteComponent(id, playerSprite));
-        componentList.add(new LocationComponent(id, 0,0,0));
+        componentList.add(new LocationComponent(id, 1,0,0));
         componentList.add(new AnimationComponent(id, new Texture("player_spritesheet.png")));
         componentList.add(new EntityStateComponent(id));
+
+        wm.setWallStatus(1,0,0,true);
     }
 
     @Override

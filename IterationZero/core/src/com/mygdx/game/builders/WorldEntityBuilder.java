@@ -6,6 +6,7 @@ import com.mygdx.game.components.MapComponent;
 import com.mygdx.game.components.PositionComponent;
 import com.mygdx.game.components.RenderComponent;
 import com.mygdx.game.data.Tile;
+import com.mygdx.game.engine.WallManager;
 import com.mygdx.game.entities.Map;
 import com.mygdx.game.interfaces.IBuilder;
 import com.mygdx.game.interfaces.IComponent;
@@ -26,6 +27,7 @@ public class WorldEntityBuilder implements IBuilder {
     private int id;
     private IEntity map;
     private AssetManager am;
+    private WallManager wm;
 
     public WorldEntityBuilder(SpriteBatch batch, AssetManager am) {
         this.am = am;
@@ -34,6 +36,7 @@ public class WorldEntityBuilder implements IBuilder {
         id = EntityIDs.WORLD_ID;
         this.batch = batch;
         map = new Map(id);
+        wm = WallManager.getInstance();
 
         buildComponentList();
         buildSystemList();
@@ -44,6 +47,7 @@ public class WorldEntityBuilder implements IBuilder {
         int width = 100;
         int height = 100;
         Tile[] tiles = JsonUtil.getMap("maps/1.json", am);
+        wm.addMap(id, width, height);
 
         componentList.add(new MapComponent(id, tiles, width, height));
         componentList.add(new PositionComponent(id, 340, 480));
