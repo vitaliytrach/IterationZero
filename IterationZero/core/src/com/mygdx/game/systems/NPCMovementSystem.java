@@ -3,11 +3,13 @@ package com.mygdx.game.systems;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.components.EntityStateComponent;
 import com.mygdx.game.components.LocationComponent;
+import com.mygdx.game.components.MapComponent;
 import com.mygdx.game.components.TransformComponent;
 import com.mygdx.game.data.Tile;
 import com.mygdx.game.engine.ComponentManager;
 import com.mygdx.game.interfaces.ISystem;
 import com.mygdx.game.utils.DirectionAdapter;
+import com.mygdx.game.utils.EntityIDs;
 
 import java.util.Random;
 
@@ -46,6 +48,7 @@ public class NPCMovementSystem implements ISystem {
     @Override
     public void render() {
         EntityStateComponent esc = (EntityStateComponent) cm.getComponent(id, "EntityStateComponent");
+        LocationComponent lc = (LocationComponent) cm.getComponent(id, "LocationComponent");
 
         if(!esc.isMoving()) {
             int roll = rand.nextInt(100);
@@ -53,37 +56,43 @@ public class NPCMovementSystem implements ISystem {
             if(roll <= moveP) {
                 direction = rand.nextInt(4);
 
-                if(!esc.hasNeighbor(direction)) {
+                if(esc.hasNeighbor(direction)) {
                     moveP = moveP + (moveP >> 1);
                 }  else {
-                    esc.setMoveStatus(true);
-                    moveP = 0;
+                    moveP = 50;
                     String dir = DirectionAdapter.intToStringDirection(direction);
-                    LocationComponent lc = (LocationComponent) cm.getComponent(id, "LocationComponent");
+                    MapComponent mc = (MapComponent) cm.getComponent(EntityIDs.WORLD_ID, "MapComponent");
 
                     if(dir == "up") {
+                        if((lc.getY() - 1) < 0) { return; }
                         lc.setY(lc.getY() - 1);
-                        moveX = Math.abs(moveX) * -1;
-                        moveY = Math.abs(moveY) * -1;
-                    } else if(dir == "down") {
-                        lc.setY(lc.getY() + 1);
                         moveX = Math.abs(moveX);
                         moveY = Math.abs(moveY);
+                        esc.setMoveStatus(true);
+                    } else if(dir == "down") {
+                        if((lc.getY() + 1) > mc.getHeight() - 1) { return; }
+                        lc.setY(lc.getY() + 1);
+                        moveX = Math.abs(moveX) * -1;
+                        moveY = Math.abs(moveY) * -1;
+                        esc.setMoveStatus(true);
                     } else if(dir == "right") {
+                        if((lc.getX() + 1) > mc.getWidth()) { return; }
                         lc.setX(lc.getX() + 1);
                         moveX = Math.abs(moveX);
                         moveY = Math.abs(moveY) * -1;
+                        esc.setMoveStatus(true);
                     } else if(dir == "left") {
+                        if((lc.getX() - 1) < 0) { return; }
                         lc.setX(lc.getX() - 1);
                         moveX = Math.abs(moveX) * -1;
                         moveY = Math.abs(moveY);
+                        esc.setMoveStatus(true);
                     }
                 }
             }
         }
 
         if(esc.isMoving()) {
-
             if(counter >= MovementSystem.TICKS_PER_BLOCK_MOVEMENT) {
                 counter = 0;
                 moveX = (Tile.DEFAULT_TILE_WIDTH / 2) / MovementSystem.TICKS_PER_BLOCK_MOVEMENT;
