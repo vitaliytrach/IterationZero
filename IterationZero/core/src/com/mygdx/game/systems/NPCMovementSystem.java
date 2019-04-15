@@ -1,5 +1,6 @@
 package com.mygdx.game.systems;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.components.EntityStateComponent;
 import com.mygdx.game.components.LocationComponent;
@@ -26,6 +27,11 @@ public class NPCMovementSystem implements ISystem {
     private Random rand;
     private float moveX, moveY;
     private int direction, counter;
+    private String[] p;
+    private boolean shouldFindPath;
+    private ArrayList<String> tempPath;
+    private float deltaTime;
+    private int targetGoal = 5;
 
     public NPCMovementSystem(int id) {
         this.id = id;
@@ -36,6 +42,9 @@ public class NPCMovementSystem implements ISystem {
         rand = new Random();
         direction = 0;
         counter = 0;
+        shouldFindPath = true;
+        deltaTime = 0;
+        tempPath = new ArrayList<String>();
         moveX = (Tile.DEFAULT_TILE_WIDTH / 2) / MovementSystem.TICKS_PER_BLOCK_MOVEMENT;
         moveY = (Tile.DEFAULT_TILE_HEIGHT / 2)/ MovementSystem.TICKS_PER_BLOCK_MOVEMENT;
     }
@@ -50,62 +59,70 @@ public class NPCMovementSystem implements ISystem {
         return type;
     }
 
-    boolean test = true;
-
     @Override
     public void render() {
         EntityStateComponent esc = (EntityStateComponent) cm.getComponent(id, "EntityStateComponent");
         LocationComponent lc = (LocationComponent) cm.getComponent(id, "LocationComponent");
+        MapComponent mc = (MapComponent) cm.getComponent(lc.getMap(), "MapComponent");
 
-        if(test) {
-            findNextPath();
-            test = false;
-        }
+        deltaTime += Gdx.graphics.getDeltaTime();
 
         if(!esc.isMoving()) {
-            int roll = rand.nextInt(100);
 
-            if(roll <= moveP) {
-                direction = rand.nextInt(4);
+            if(shouldFindPath) {
+                tempPath = findNextPath();
 
-                if(esc.hasNeighbor(direction)) {
-                    moveP = moveP + (moveP >> 1);
-                }  else {
-                    moveP = 50;
-                    String dir = DirectionAdapter.intToStringDirection(direction);
-                    MapComponent mc = (MapComponent) cm.getComponent(EntityIDs.WORLD_ID, "MapComponent");
+                shouldFindPath = false;
+            }
 
-                    if(dir == "up") {
-                        if((lc.getY() - 1) < 0) { return; }
-                        lc.setY(lc.getY() - 1);
-                        moveX = Math.abs(moveX);
-                        moveY = Math.abs(moveY);
-                        esc.setMoveStatus(true);
-                    } else if(dir == "down") {
-                        if((lc.getY() + 1) > mc.getHeight() - 1) { return; }
-                        lc.setY(lc.getY() + 1);
-                        moveX = Math.abs(moveX) * -1;
-                        moveY = Math.abs(moveY) * -1;
-                        esc.setMoveStatus(true);
-                    } else if(dir == "right") {
-                        if((lc.getX() + 1) > mc.getWidth()) { return; }
-                        lc.setX(lc.getX() + 1);
-                        moveX = Math.abs(moveX);
-                        moveY = Math.abs(moveY) * -1;
-                        esc.setMoveStatus(true);
-                    } else if(dir == "left") {
-                        if((lc.getX() - 1) < 0) { return; }
-                        lc.setX(lc.getX() - 1);
-                        moveX = Math.abs(moveX) * -1;
-                        moveY = Math.abs(moveY);
-                        esc.setMoveStatus(true);
-                    }
-                }
+            if(deltaTime < targetGoal) {
+                return;
+            }
+
+            targetGoal = rand.nextInt(5);
+            deltaTime = 0;
+
+            if(tempPath.size() <= 1) {
+                shouldFindPath = true;
+                return;
+            }
+
+            String d1 = tempPath.remove(0);
+            String dir = nextDirection(d1, tempPath.get(0));
+
+            if(dir == "up") {
+                if((lc.getY() - 1) < 0) { return; }
+                lc.setY(lc.getY() - 1);
+                moveX = Math.abs(moveX);
+                moveY = Math.abs(moveY);
+                esc.setMoveStatus(true);
+            } else if(dir == "down") {
+                if((lc.getY() + 1) > mc.getHeight() - 1) { return; }
+                lc.setY(lc.getY() + 1);
+                moveX = Math.abs(moveX) * -1;
+                moveY = Math.abs(moveY) * -1;
+                esc.setMoveStatus(true);
+            } else if(dir == "right") {
+                if((lc.getX() + 1) > mc.getWidth()) { return; }
+                lc.setX(lc.getX() + 1);
+                moveX = Math.abs(moveX);
+                moveY = Math.abs(moveY) * -1;
+                esc.setMoveStatus(true);
+            } else if(dir == "left") {
+                if((lc.getX() - 1) < 0) { return; }
+                lc.setX(lc.getX() - 1);
+                moveX = Math.abs(moveX) * -1;
+                moveY = Math.abs(moveY);
+                esc.setMoveStatus(true);
             }
         }
 
         if(esc.isMoving()) {
             if(counter >= MovementSystem.TICKS_PER_BLOCK_MOVEMENT) {
+                if(tempPath.size() <= 1) {
+                    shouldFindPath = true;
+                }
+
                 counter = 0;
                 moveX = (Tile.DEFAULT_TILE_WIDTH / 2) / MovementSystem.TICKS_PER_BLOCK_MOVEMENT;
                 moveY = (Tile.DEFAULT_TILE_HEIGHT / 2)/ MovementSystem.TICKS_PER_BLOCK_MOVEMENT;
@@ -117,7 +134,7 @@ public class NPCMovementSystem implements ISystem {
         }
     }
 
-    private void findNextPath() {
+    private ArrayList<String> findNextPath() {
         LocationComponent lc = (LocationComponent) cm.getComponent(id, "LocationComponent");
         MapComponent mc = (MapComponent) cm.getComponent(lc.getMap(), "MapComponent");
         int x = lc.getX();
@@ -140,91 +157,90 @@ public class NPCMovementSystem implements ISystem {
             }
         }
 
-        String[] path = dfsPath(lc.getMap(), x, y, xPos, yPos);
-
-        for(String s : path) {
-            System.out.println(s);
-        }
+        return bfsPath(lc.getMap(), x, y, xPos, yPos);
     }
 
-    private String[] dfsPath(int mapId, int startX, int startY, int endX, int endY) {
-        ArrayList<String> path = new ArrayList<String>();
+    private ArrayList<String> bfsPath(int mapId, int startX, int startY, int endX, int endY) {
         HashSet<String> visited = new HashSet<String>();
+        ArrayList<String> path = new ArrayList<String>();
         ArrayList<String> queue = new ArrayList<String>();
+        HashMap<String, String> myPath = new HashMap<String, String>();
 
         int x = startX;
         int y = startY;
-        int totalX = 0;
-        int totalY = 0;
 
-        String curr = coordToString(x, y);
-        String end = coordToString(endX, endY);
+        String startNode = coordToString(x, y);
+        String endNode = coordToString(endX, endY);
+        String curr = startNode;
 
-        System.out.println(curr + " looking for: " + end);
+        visited.add(curr);
 
         while(true) {
-            path.add(curr);
 
-            // Check if up is visited
-            if(!visited.contains(coordToString(x,y - 1))) {
-                if(!wm.isWall(mapId, x, y - 1) && isValidY(y - 1, totalY)) {
-                    queue.add(coordToString(x, y - 1));
-                    visited.add(coordToString(x, y - 1));
-                    path.add("up");
-                    totalY--;
-                }
+            // Up
+            if(!visited.contains(coordToString(x, y - 1)) && isValidY(y - 1)) {
+                String node = coordToString(x, y - 1);
+                queue.add(node);
+                visited.add(node);
+                myPath.put(node, curr);
             }
 
-            // Check if down is visited
-            if(!visited.contains(coordToString(x,y + 1))) {
-                if(!wm.isWall(mapId, x, y + 1) && isValidY(y + 1, totalY)) {
-                    queue.add(coordToString(x, y + 1));
-                    visited.add(coordToString(x, y + 1));
-                    path.add("down");
-                    totalY++;
-                }
+            // Down
+            if(!visited.contains(coordToString(x, y + 1)) && isValidY(y + 1)) {
+                String node = coordToString(x, y + 1);
+                queue.add(node);
+                visited.add(node);
+                myPath.put(node, curr);
             }
 
-            // Check if right is visited
-            if(!visited.contains(coordToString(x + 1, y))) {
-                if(!wm.isWall(mapId, x + 1, y) && isValidX(x + 1, totalX)) {
-                    queue.add(coordToString(x + 1, y));
-                    visited.add(coordToString(x + 1, y));
-                    path.add("right");
-                    totalX++;
-                }
+            // Right
+            if(!visited.contains(coordToString(x + 1, y)) && isValidX(x + 1)) {
+                String node = coordToString(x + 1, y);
+                queue.add(node);
+                visited.add(node);
+                myPath.put(node, curr);
             }
 
-            // Check if left is visited
-            if(!visited.contains(coordToString(x - 1,y))) {
-                if(!wm.isWall(mapId, x - 1, y) && isValidX(x - 1, totalX)) {
-                    queue.add(coordToString(x - 1, y));
-                    visited.add(coordToString(x - 1, y));
-                    path.add("left");
-                    totalX--;
-                }
+            // Left
+            if(!visited.contains(coordToString(x - 1, y)) && isValidX(x - 1)) {
+                String node = coordToString(x - 1, y);
+                queue.add(node);
+                visited.add(node);
+                myPath.put(node, curr);
             }
-
-            if(curr.compareTo(end) == 0) {
-                break;
-            }
-
-            visited.add(curr);
 
             if(queue.isEmpty()) {
                 break;
             }
 
-            int[] nextCoords = coordToInt(curr);
+            if(curr.compareTo(endNode) == 0) {
+
+                String temp = curr;
+
+                while(true) {
+                    path.add(temp);
+
+                    if(temp.compareTo(startNode) == 0) {
+                        break;
+                    }
+
+                    temp = myPath.get(temp);
+                }
+
+                break;
+            }
+
             curr = queue.remove(0);
-            x = nextCoords[0];
-            y = nextCoords[1];
+            int[] newCoords = coordToInt(curr);
+            x = newCoords[0];
+            y = newCoords[1];
         }
 
-        return path.toArray(new String[0]);
+        Collections.reverse(path);
+        return path;
     }
 
-    private boolean isValidX(int x, int totalX) {
+    private boolean isValidX(int x) {
         if(Math.abs(x) <= NPC_MOVEMENT_DISTANCE / 2) {
             if(x < ((MapComponent) cm.getComponent(1, "MapComponent")).getWidth() - 1 || x > 0) {
                 return true;
@@ -234,7 +250,36 @@ public class NPCMovementSystem implements ISystem {
         return false;
     }
 
-    private boolean isValidY(int y, int totalY) {
+    private String nextDirection(String start, String end) {
+        String result = "up";
+
+        int[] s = coordToInt(start);
+        int[] e = coordToInt(end);
+
+        int startX = s[0];
+        int startY = s[1];
+
+        int endX = e[0];
+        int endY = e[1];
+
+        if(startY != endY) {
+            if(startY < endY) {
+                result = "down";
+            } else {
+                result = "up";
+            }
+        } else if(startX != endX){
+            if(startX < endX) {
+                result = "right";
+            } else {
+                result = "left";
+            }
+        }
+
+        return result;
+    }
+
+    private boolean isValidY(int y) {
         if(Math.abs(y) <= NPC_MOVEMENT_DISTANCE / 2) {
             if(y < ((MapComponent) cm.getComponent(1, "MapComponent")).getHeight() - 1 || y > 0) {
                 return true;
@@ -243,16 +288,16 @@ public class NPCMovementSystem implements ISystem {
 
         return false;
     }
-
+    
     private String coordToString(int x, int y) {
-        return Integer.toString(x) + "," + Integer.toString(y);
+        return Integer.valueOf(x) + "," + Integer.valueOf(y);
     }
 
-    private int[] coordToInt(String coords) {
+    private int[] coordToInt(String cord) {
         int[] result = new int[2];
-        String[] coord = coords.split(",");
-        result[0] = Integer.parseInt(coord[0]);
-        result[1] = Integer.parseInt(coord[1]);
+        String[] cords = cord.split(",");
+        result[0] = Integer.parseInt(cords[0]);
+        result[1] = Integer.parseInt(cords[1]);
         return result;
     }
 
