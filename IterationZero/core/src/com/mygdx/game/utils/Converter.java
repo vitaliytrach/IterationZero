@@ -1,7 +1,9 @@
 package com.mygdx.game.utils;
 
 
-public class DirectionAdapter {
+import com.mygdx.game.components.MapComponent;
+
+public class Converter {
 
     public static int stringToIntDirection(String direction) {
 
