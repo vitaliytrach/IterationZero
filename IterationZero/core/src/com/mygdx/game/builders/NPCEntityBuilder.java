@@ -48,7 +48,7 @@ public class NPCEntityBuilder implements IBuilder {
         cl.add(new RenderComponent(id, batch));
         cl.add(new EntityStateComponent(id));
 
-        //wm.setWallStatus(1,1,1,true);
+        wm.setWallStatus(1,1,1,true);
     }
 
     @Override

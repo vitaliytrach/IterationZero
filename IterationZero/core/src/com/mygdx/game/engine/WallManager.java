@@ -57,4 +57,11 @@ public class WallManager {
             walls.get(mapId)[x][y] = status;
         }
     }
+
+    public void swapWallStatus(int mapId, int xBefore, int yBefore, int xAfter, int yAfter) {
+        if(walls.containsKey(mapId)) {
+            walls.get(mapId)[xBefore][yBefore] = false;
+            walls.get(mapId)[xAfter][yAfter] = true;
+        }
+    }
 }

@@ -8,6 +8,7 @@ import com.mygdx.game.components.MapComponent;
 import com.mygdx.game.components.TransformComponent;
 import com.mygdx.game.data.Tile;
 import com.mygdx.game.engine.ComponentManager;
+import com.mygdx.game.engine.WallManager;
 import com.mygdx.game.interfaces.ISystem;
 import com.mygdx.game.utils.BreadthFirstSearch;
 import com.mygdx.game.utils.MapUtils;
@@ -19,6 +20,7 @@ public class NPCMovementSystem implements ISystem {
     private int id;
     private String type;
     private ComponentManager cm;
+    private WallManager wm;
     private Random rand;
     private float moveX, moveY;
     private int counter;
@@ -36,6 +38,7 @@ public class NPCMovementSystem implements ISystem {
         targetGoal = 3;
         shouldFindPath = true;
         deltaTime = 0;
+        wm = WallManager.getInstance();
         tempPath = new ArrayList<String>();
         moveX = (Tile.DEFAULT_TILE_WIDTH / 2) / MovementSystem.TICKS_PER_BLOCK_MOVEMENT;
         moveY = (Tile.DEFAULT_TILE_HEIGHT / 2)/ MovementSystem.TICKS_PER_BLOCK_MOVEMENT;
@@ -79,32 +82,72 @@ public class NPCMovementSystem implements ISystem {
                 return;
             }
 
-            String d1 = tempPath.remove(0);
-            String dir = MapUtils.nextDirection(d1, tempPath.get(0));
+            String s = tempPath.remove(0);
+            String dir = MapUtils.nextDirection(s, tempPath.get(0));
 
             if(dir == "up") {
                 if((lc.getY() - 1) < 0) { return; }
+
+                if(wm.isWall(lc.getMap(), lc.getX(), lc.getY() - 1)) {
+                    shouldFindPath = true;
+                    deltaTime = 5;
+                    return;
+                }
+
+                wm.swapWallStatus(lc.getMap(), lc.getX(), lc.getY(), lc.getX(), lc.getY() - 1);
                 lc.setY(lc.getY() - 1);
+
                 moveX = Math.abs(moveX);
                 moveY = Math.abs(moveY);
+
                 esc.setMoveStatus(true);
             } else if(dir == "down") {
                 if((lc.getY() + 1) > mc.getHeight() - 1) { return; }
+
+                if(wm.isWall(lc.getMap(), lc.getX(), lc.getY() + 1)) {
+                    shouldFindPath = true;
+                    deltaTime = 5;
+                    return;
+                }
+
+                wm.swapWallStatus(lc.getMap(), lc.getX(), lc.getY(), lc.getX(), lc.getY() + 1);
                 lc.setY(lc.getY() + 1);
+
                 moveX = Math.abs(moveX) * -1;
                 moveY = Math.abs(moveY) * -1;
+
                 esc.setMoveStatus(true);
             } else if(dir == "right") {
                 if((lc.getX() + 1) > mc.getWidth()) { return; }
+
+                if(wm.isWall(lc.getMap(), lc.getX() + 1, lc.getY())) {
+                    shouldFindPath = true;
+                    deltaTime = 5;
+                    return;
+                }
+
+                wm.swapWallStatus(lc.getMap(), lc.getX(), lc.getY(), lc.getX() + 1, lc.getY());
                 lc.setX(lc.getX() + 1);
+
                 moveX = Math.abs(moveX);
                 moveY = Math.abs(moveY) * -1;
+
                 esc.setMoveStatus(true);
             } else if(dir == "left") {
                 if((lc.getX() - 1) < 0) { return; }
+
+                if(wm.isWall(lc.getMap(), lc.getX() - 1, lc.getY())) {
+                    shouldFindPath = true;
+                    deltaTime = 5;
+                    return;
+                }
+
+                wm.swapWallStatus(lc.getMap(), lc.getX(), lc.getY(), lc.getX() - 1, lc.getY());
                 lc.setX(lc.getX() - 1);
+
                 moveX = Math.abs(moveX) * -1;
                 moveY = Math.abs(moveY);
+
                 esc.setMoveStatus(true);
             }
         }
