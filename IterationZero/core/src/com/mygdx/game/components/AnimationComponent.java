@@ -8,7 +8,7 @@ import com.mygdx.game.interfaces.IComponent;
 public class AnimationComponent implements IComponent {
 
     private static final int SPRITESHEET_WIDTH = 10;
-    private static final int SPRITESHEET_HEIGHT = 2;
+    private static final int SPRITESHEET_HEIGHT = 3;
 
     private int id;
     private String type;

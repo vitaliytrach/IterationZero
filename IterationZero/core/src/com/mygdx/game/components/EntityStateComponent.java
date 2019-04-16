@@ -13,12 +13,14 @@ public class EntityStateComponent implements IComponent {
     private String type;
     private boolean[] availableDirections;
     private boolean moving;
+    private boolean attacking;
     private String direction;
 
     public EntityStateComponent(int id) {
         this.id = id;
         type = "EntityStateComponent";
         moving = false;
+        attacking = false;
         direction = "down";
 
         availableDirections = new boolean[4];
@@ -44,8 +46,16 @@ public class EntityStateComponent implements IComponent {
         this.direction = direction;
     }
 
+    public boolean isAttacking() {
+        return attacking;
+    }
+
     public boolean isMoving() {
         return moving;
+    }
+
+    public void setAttackStatus(boolean attacking) {
+        this.attacking = attacking;
     }
 
     public void setMoveStatus(boolean moving) {

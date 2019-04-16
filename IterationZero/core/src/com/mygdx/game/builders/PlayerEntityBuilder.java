@@ -12,6 +12,7 @@ import com.mygdx.game.interfaces.IComponent;
 import com.mygdx.game.interfaces.IEntity;
 import com.mygdx.game.interfaces.ISystem;
 import com.mygdx.game.systems.AnimationSystem;
+import com.mygdx.game.systems.AttackSystem;
 import com.mygdx.game.systems.CollisionDetectionSystem;
 import com.mygdx.game.systems.RenderSystem;
 import com.badlogic.gdx.math.Vector2;
@@ -51,7 +52,7 @@ public class PlayerEntityBuilder implements IBuilder {
         componentList.add(new RenderComponent(id, batch));
         componentList.add(new SpriteComponent(id, playerSprite));
         componentList.add(new LocationComponent(id, 1,0,0));
-        componentList.add(new AnimationComponent(id, new Texture("player_spritesheet.png")));
+        componentList.add(new AnimationComponent(id, new Texture("player_spritesheet2.png")));
         componentList.add(new EntityStateComponent(id));
 
         wm.setWallStatus(1,0,0,true);
@@ -62,6 +63,7 @@ public class PlayerEntityBuilder implements IBuilder {
         systemList.add(new AnimationSystem(player.getID()));
         systemList.add(new RenderSystem(player.getID()));
         systemList.add(new CollisionDetectionSystem(player.getID()));
+        systemList.add(new AttackSystem(player.getID()));
     }
 
     @Override
