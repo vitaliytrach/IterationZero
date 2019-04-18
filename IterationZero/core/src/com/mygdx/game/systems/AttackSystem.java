@@ -8,9 +8,12 @@ import com.mygdx.game.interfaces.ISystem;
 
 public class AttackSystem implements ISystem {
 
+    public static final float ATTACK_TIME = 0.5f;
+
     private int id;
     private String type;
     private ComponentManager cm;
+    private float deltaTime;
 
     public AttackSystem(int id) {
         this.id = id;
@@ -34,9 +37,14 @@ public class AttackSystem implements ISystem {
         EntityStateComponent esc = (EntityStateComponent) cm.getComponent(id, "EntityStateComponent");
 
         if(!esc.isMoving()) {
-            if(Gdx.input.isKeyPressed(Input.Keys.ALT_RIGHT)) {
+            if(Gdx.input.isKeyPressed(Input.Keys.ALT_RIGHT) && !esc.isAttacking()) {
+                deltaTime = 0;
                 esc.setAttackStatus(true);
-            } else {
+            }
+
+            deltaTime = deltaTime + Gdx.graphics.getDeltaTime();
+
+            if(esc.isAttacking() && deltaTime > ATTACK_TIME) {
                 esc.setAttackStatus(false);
             }
         }

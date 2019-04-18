@@ -1,5 +1,6 @@
 package com.mygdx.game.systems;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.mygdx.game.components.AnimationComponent;
 import com.mygdx.game.components.EntityStateComponent;
@@ -16,7 +17,9 @@ public class AnimationSystem implements ISystem {
     private String type;
     private ComponentManager cm;
     private int switchTime;
-    private int attackTime;
+    private float attackTime;
+    private float deltaTime;
+    private float attack = 0;
     private int counter;
     private int offset, startX, startY;
 
@@ -25,7 +28,8 @@ public class AnimationSystem implements ISystem {
         cm = ComponentManager.getInstance();
         type = "AnimationSystem";
         switchTime = MovementSystem.TICKS_PER_BLOCK_MOVEMENT / MOVEMENT_FRAMES;
-        attackTime = MovementSystem.TICKS_PER_BLOCK_MOVEMENT / ATTACK_FRAMES;
+        attackTime = AttackSystem.ATTACK_TIME / (float) ATTACK_FRAMES;
+        deltaTime = 0;
         counter = 0;
         offset = 0;
         startX = 0;
@@ -91,12 +95,9 @@ public class AnimationSystem implements ISystem {
             startY = 2;
         }
 
-        if(counter >= 32) {
-            offset = 0;
-            counter = 0;
-        }
+        deltaTime += Gdx.graphics.getDeltaTime();
 
-        if(counter % 16 == 0) {
+        if(deltaTime >= attack) {
             sc.setSprite(new Sprite(ac.getFrame(startY, startX + offset)));
 
             if(offset > 0) {
@@ -104,9 +105,9 @@ public class AnimationSystem implements ISystem {
             } else {
                 offset = 1;
             }
-        }
 
-        counter++;
+            attack += attackTime;
+        }
     }
 
     @Override

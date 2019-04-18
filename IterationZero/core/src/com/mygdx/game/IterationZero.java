@@ -11,6 +11,7 @@ import com.mygdx.game.builders.WorldEntityBuilder;
 import com.mygdx.game.engine.ECSEngine;
 import com.mygdx.game.entities.npcs.Goat;
 import com.mygdx.game.entities.statics.TreeEntity;
+import com.mygdx.game.network.Client;
 import com.mygdx.game.utils.EntityIDs;
 
 public class IterationZero extends ApplicationAdapter {
@@ -21,12 +22,14 @@ public class IterationZero extends ApplicationAdapter {
 	private SpriteBatch batch;
 	private AssetManager assetManager;
 	private ECSEngine engine;
+	private Client client;
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		assetManager = new AssetManager();
 		engine = new ECSEngine(batch);
+		client = Client.getInstance();
 
 		assetManager.load("test_player2.png", Texture.class);
 		assetManager.load("test_tile.png", Texture.class);
@@ -46,6 +49,7 @@ public class IterationZero extends ApplicationAdapter {
 	
 	@Override
 	public void dispose () {
+		client.closeConnection();
 		batch.dispose();
 		assetManager.dispose();
 	}

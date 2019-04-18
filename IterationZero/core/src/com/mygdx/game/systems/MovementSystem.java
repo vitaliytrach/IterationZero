@@ -57,6 +57,10 @@ public class MovementSystem implements ISystem {
         MapComponent mc = (MapComponent) cm.getComponent(EntityIDs.WORLD_ID, "MapComponent");
         EntityStateComponent esc = (EntityStateComponent) cm.getComponent(EntityIDs.PLAYER_ID, "EntityStateComponent");
 
+        if(esc.isAttacking()) {
+            return;
+        }
+
         /**
          * This next if statement checks if the character is NOT moving,
          * if he's not moving then it checks if any of the movement keys
@@ -72,6 +76,7 @@ public class MovementSystem implements ISystem {
 
                 // Changing entities movement direction
                 esc.changeDirection("up");
+
 
                 // Checking if entity is attempting to move out of bounds
                 if((lc.getY() - 1) < 0) {

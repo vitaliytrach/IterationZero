@@ -16,6 +16,7 @@ import com.mygdx.game.systems.AttackSystem;
 import com.mygdx.game.systems.CollisionDetectionSystem;
 import com.mygdx.game.systems.RenderSystem;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.systems.net.SendPacketSystem;
 import com.mygdx.game.utils.EntityIDs;
 
 
@@ -64,6 +65,7 @@ public class PlayerEntityBuilder implements IBuilder {
         systemList.add(new RenderSystem(player.getID()));
         systemList.add(new CollisionDetectionSystem(player.getID()));
         systemList.add(new AttackSystem(player.getID()));
+        systemList.add(new SendPacketSystem(player.getID()));
     }
 
     @Override
